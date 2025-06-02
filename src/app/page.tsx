@@ -6,7 +6,7 @@ import { Navigation } from "@/components/custom-ui/navbar";
 import { HeroSection } from "@/components/custom-ui/hero-section";
 import { ServicesSection } from "@/components/custom-ui/services-section";
 import { WhyChooseUsSection } from "@/components/custom-ui/why-choose-us-section";
-import { WeedingSection } from "@/components/custom-ui/weeding-section.tsx";
+import { WeedingSection } from "@/components/custom-ui/weeding-section";
 import { ContactSection } from "@/components/custom-ui/contact-section";
 import { Footer } from "@/components/custom-ui/footer";
 
