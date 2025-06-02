@@ -14,9 +14,11 @@ gsap.registerPlugin(ScrollTrigger);
 export function ContactSection() {
   useEffect(() => {
     if (typeof window !== "undefined" && window.gsap && ScrollTrigger) {
+      // Register ScrollTrigger plugin
       window.gsap.registerPlugin(ScrollTrigger);
 
-      window.gsap.fromTo(
+      // Contact form animation
+      gsap.fromTo(
         ".contact-form",
         { x: -60, opacity: 0 },
         {
@@ -32,7 +34,8 @@ export function ContactSection() {
         }
       );
 
-      window.gsap.fromTo(
+      // Contact info animation
+      gsap.fromTo(
         ".contact-info",
         { x: 60, opacity: 0 },
         {
@@ -43,6 +46,62 @@ export function ContactSection() {
           scrollTrigger: {
             trigger: ".contact-section",
             start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+
+      // Stagger animation for contact details
+      gsap.fromTo(
+        ".contact-info .flex",
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: ".contact-info",
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+
+      // Hover animation for buttons
+      const buttons = document.querySelectorAll(".contact-form button");
+      buttons.forEach((button) => {
+        button.addEventListener("mouseenter", () => {
+          gsap.to(button, {
+            scale: 1.05,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+
+        button.addEventListener("mouseleave", () => {
+          gsap.to(button, {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+      });
+
+      // Fade-in animation for labels and inputs
+      gsap.fromTo(
+        ".contact-form .space-y-2",
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: ".contact-form",
+            start: "top 85%",
             toggleActions: "play none none reverse",
           },
         }
