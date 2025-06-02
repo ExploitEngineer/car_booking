@@ -187,7 +187,7 @@ export function WhyChooseUsSection() {
               <Quote className="h-8 w-8 text-neutral-300 mx-auto mb-8" />
 
               <blockquote className="text-2xl md:text-3xl font-light text-neutral-900 mb-12 leading-relaxed">
-                "{testimonials[currentTestimonial].content}"
+                &quot;{testimonials[currentTestimonial].content}&quot;
               </blockquote>
 
               <div className="space-y-2">
