@@ -30,10 +30,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function Footer() {
   useEffect(() => {
-    if (typeof window !== "undefined" && window.gsap && ScrollTrigger) {
-      window.gsap.registerPlugin(ScrollTrigger);
-
-      window.gsap.fromTo(
+    if (typeof window !== "undefined") {
+      // Footer content fade-in animation
+      gsap.fromTo(
         ".footer-content",
         { y: 40, opacity: 0 },
         {
@@ -41,6 +40,62 @@ export function Footer() {
           opacity: 1,
           duration: 1,
           ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".footer-section",
+            start: "top 90%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+
+      // Stagger animation for links
+      gsap.fromTo(
+        ".footer-content a",
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: ".footer-section",
+            start: "top 90%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+
+      // Hover animation for links
+      const links = document.querySelectorAll(".footer-content a");
+      links.forEach((link) => {
+        link.addEventListener("mouseenter", () => {
+          gsap.to(link, {
+            scale: 1.05,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+
+        link.addEventListener("mouseleave", () => {
+          gsap.to(link, {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        });
+      });
+
+      // Fade-in animation for social media icons
+      gsap.fromTo(
+        ".footer-content .flex a",
+        { opacity: 0, scale: 0.8 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          ease: "power3.out",
+          stagger: 0.2,
           scrollTrigger: {
             trigger: ".footer-section",
             start: "top 90%",
