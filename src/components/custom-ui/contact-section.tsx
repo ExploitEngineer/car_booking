@@ -13,10 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function ContactSection() {
   useEffect(() => {
-    if (typeof window !== "undefined" && window.gsap && ScrollTrigger) {
-      // Register ScrollTrigger plugin
-      window.gsap.registerPlugin(ScrollTrigger);
-
+    if (typeof window !== "undefined") {
       // Contact form animation
       gsap.fromTo(
         ".contact-form",
