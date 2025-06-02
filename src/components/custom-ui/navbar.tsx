@@ -76,7 +76,7 @@ export function Navigation() {
             </div>
             <div>
               <h1 className="text-2xl font-light tracking-[0.2em] text-neutral-900">
-                ELITE
+                TEXAS LIMO
               </h1>
               <p className="text-xs font-light text-neutral-500 tracking-widest uppercase">
                 Luxury Transport

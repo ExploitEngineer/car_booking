@@ -107,7 +107,7 @@ export function ContactSection() {
   }, []);
 
   return (
-    <section id="contact" className="py-32 bg-white contact-section">
+    <section id="contact" className="py-32 bg-neutral-50 contact-section">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-20">
           {/* Contact Form */}

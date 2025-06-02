@@ -1,6 +1,7 @@
 "use client";
 
 import gsap from "gsap";
+import Image from "next/image";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
@@ -113,7 +114,12 @@ export function Footer() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             {/* Company Info */}
             <div className="lg:col-span-2">
-              <h3 className="text-3xl font-light tracking-wider mb-8">ELITE</h3>
+              <Image
+              src="/assets/images/6.svg"
+              width={200}
+              height={100}
+              alt="company logo"
+              />
               <p className="text-neutral-400 font-light leading-relaxed max-w-md mb-8">
                 Redefining luxury transportation with unparalleled service,
                 premium vehicles, and meticulous attention to detail since 1995.

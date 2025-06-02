@@ -14,14 +14,14 @@ const services = [
     title: "Executive Chauffeur",
     description:
       "Professional drivers with extensive training in luxury service protocols and discretion.",
-    image: "/assets/images/limousine.jpg",
+    image: "/assets/images/img.jpeg",
   },
   {
     number: "02",
     title: "Airport Transfers",
     description:
       "Seamless transportation with flight monitoring and personalized meet & greet service.",
-    image: "/assets/images/blackcar.jpg",
+    image: "/assets/images/img1.jpeg",
   },
   {
     number: "03",
@@ -161,7 +161,7 @@ export function ServicesSection() {
               </div>
 
               <div className={`${index % 2 === 1 ? "lg:col-start-1" : ""}`}>
-                <div className="aspect-[4/3] bg-neutral-100 overflow-hidden group">
+                <div className="rounded-lg aspect-[4/3] bg-neutral-100 overflow-hidden group">
                   <img
                     src={service.image || "/placeholder.svg"}
                     alt={service.title}

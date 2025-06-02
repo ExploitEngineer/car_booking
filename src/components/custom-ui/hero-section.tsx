@@ -1,22 +1,32 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Select,
-  SelectContent,
-  SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectContent,
+  SelectItem,
 } from "@/components/ui/select";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
 
 export function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
+  const [viaFields, setViaFields] = useState<string[]>([]);
+
+  const addViaField = () => {
+    setViaFields((prev) => [...prev, ""]);
+  };
+
+  const removeViaField = (index: number) => {
+    setViaFields((prev) => prev.filter((_, i) => i !== index));
+  };
 
   useGSAP(
     () => {
@@ -113,7 +123,7 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right side - Complete Booking Form */}
+          {/* Right side - Booking Form */}
           <div className="booking-form">
             <div className="bg-white border border-neutral-200 p-8 shadow-sm">
               <div className="mb-8">
@@ -123,87 +133,182 @@ export function HeroSection() {
                 <div className="w-12 h-px bg-neutral-900"></div>
               </div>
 
-              <form className="space-y-6">
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="car-type"
-                    className="text-sm font-light text-neutral-700 uppercase tracking-wider"
-                  >
-                    Car Type
-                  </Label>
-                  <Select>
-                    <SelectTrigger className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light">
-                      <SelectValue placeholder="Select car type" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border-neutral-200 rounded-none">
-                      <SelectItem value="luxury-sedan">Luxury Sedan</SelectItem>
-                      <SelectItem value="suv">Premium SUV</SelectItem>
-                      <SelectItem value="limousine">Limousine</SelectItem>
-                      <SelectItem value="sports-car">Sports Car</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              {/* Tabs */}
+              <Tabs defaultValue="instant-quote">
+                <TabsList className="flex space-x-4 mb-6">
+                  <TabsTrigger value="instant-quote">Instant Quote</TabsTrigger>
+                  <TabsTrigger value="hourly-rate">Hourly Rate</TabsTrigger>
+                </TabsList>
 
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="pickup-location"
-                    className="text-sm font-light text-neutral-700 uppercase tracking-wider"
-                  >
-                    Pickup Location
-                  </Label>
-                  <Input
-                    id="pickup-location"
-                    placeholder="Enter pickup address"
-                    className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
-                  />
-                </div>
+                <TabsContent value="instant-quote">
+                  <form className="space-y-6">
+                    <div className="space-y-2">
+                      <Label
+                        htmlFor="car-type"
+                        className="text-sm font-light text-neutral-700 uppercase tracking-wider"
+                      >
+                        Car Type
+                      </Label>
+                      <Select>
+                        <SelectTrigger className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light">
+                          <SelectValue placeholder="Select car type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="luxury-sedan">
+                            Luxury Sedan
+                          </SelectItem>
+                          <SelectItem value="suv">Premium SUV</SelectItem>
+                          <SelectItem value="limousine">Limousine</SelectItem>
+                          <SelectItem value="sports-car">Sports Car</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="pickup-datetime"
-                    className="text-sm font-light text-neutral-700 uppercase tracking-wider"
-                  >
-                    Pickup Date & Time
-                  </Label>
-                  <Input
-                    id="pickup-datetime"
-                    type="datetime-local"
-                    className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
-                  />
-                </div>
+                    <div className="space-y-2">
+                      <Label
+                        htmlFor="pickup-location"
+                        className="text-sm font-light text-neutral-700 uppercase tracking-wider"
+                      >
+                        From
+                      </Label>
+                      <Input
+                        id="pickup-location"
+                        placeholder="Enter pickup post code, venue or place"
+                        className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
+                      />
+                    </div>
 
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="dropoff-location"
-                    className="text-sm font-light text-neutral-700 uppercase tracking-wider"
-                  >
-                    Drop-off Location
-                  </Label>
-                  <Input
-                    id="dropoff-location"
-                    placeholder="Enter drop-off address"
-                    className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
-                  />
-                </div>
+                    {/* Via Fields */}
+                    {viaFields.map((_, index) => (
+                      <div key={index} className="space-y-2">
+                        <Label
+                          htmlFor={`via-${index}`}
+                          className="text-sm font-light text-neutral-700 uppercase tracking-wider"
+                        >
+                          Via
+                        </Label>
+                        <div className="flex items-center space-x-2">
+                          <Input
+                            id={`via-${index}`}
+                            placeholder="Enter stopover location"
+                            className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light flex-grow"
+                          />
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => removeViaField(index)}
+                            className="text-neutral-400 hover:text-neutral-900"
+                          >
+                            ✕
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
 
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="dropoff-datetime"
-                    className="text-sm font-light text-neutral-700 uppercase tracking-wider"
-                  >
-                    Drop-off Date & Time
-                  </Label>
-                  <Input
-                    id="dropoff-datetime"
-                    type="datetime-local"
-                    className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
-                  />
-                </div>
+                    <Button
+                      onClick={(event) => {
+                        event.preventDefault();
+                        addViaField();
+                      }}
+                      className="text-neutral-400 hover:text-neutral-900 bg-transparent flex items-center space-x-2"
+                    >
+                      <Plus className="h-5 w-5" />
+                      <span>Add Via</span>
+                    </Button>
 
-                <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white py-4 text-base font-light rounded-none border-0 transition-all duration-300">
-                  Book Now
-                </Button>
-              </form>
+                    <div className="space-y-2">
+                      <Label
+                        htmlFor="dropof-location"
+                        className="text-sm font-light text-neutral-700 uppercase tracking-wider"
+                      >
+                        TO
+                      </Label>
+                      <Input
+                        id="dropof-location"
+                        placeholder="Enter pickup post code, venue or place"
+                        className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
+                      />
+                    </div>
+
+                    <Tabs defaultValue="on-way">
+                      <TabsList className="flex space-x-4 mb-6">
+                        <TabsTrigger value="on-way">One Way</TabsTrigger>
+                        <TabsTrigger value="return">Return</TabsTrigger>
+                      </TabsList>
+
+                      <TabsContent value="on-way">
+                        <div className="space-y-2">
+                          <Label
+                            htmlFor="on-way"
+                            className="text-sm font-light text-neutral-700 uppercase tracking-wider"
+                          >
+                            One Way
+                          </Label>
+                          <Input
+                            id="on-way"
+                            type="datetime-local"
+                            className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
+                          />
+                        </div>
+                      </TabsContent>
+
+                      <TabsContent value="return">
+                        <div className="space-y-3">
+                          <Input
+                            type="datetime-local"
+                            className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
+                          />
+
+                          <Input
+                            type="datetime-local"
+                            className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
+                          />
+                        </div>
+                      </TabsContent>
+                    </Tabs>
+
+                    <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white py-4 text-base font-light rounded-none border-0 transition-all duration-300">
+                      Get Instant Quote
+                    </Button>
+                  </form>
+                </TabsContent>
+
+                <TabsContent value="hourly-rate">
+                  <form className="space-y-6">
+                    <div className="space-y-2">
+                      <Label
+                        htmlFor="pickup-location-hourly"
+                        className="text-sm font-light text-neutral-700 uppercase tracking-wider"
+                      >
+                        From
+                      </Label>
+                      <Input
+                        id="pickup-location-hourly"
+                        placeholder="Enter pickup post code, venue or place"
+                        className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label
+                        htmlFor="date&time"
+                        className="text-sm font-light text-neutral-700 uppercase tracking-wider"
+                      >
+                        DATE & TIME
+                      </Label>
+                      <Input
+                        id="date&time"
+                        type="datetime-local"
+                        className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
+                      />
+                    </div>
+
+                    <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white py-4 text-base font-light rounded-none border-0 transition-all duration-300">
+                      Get Hourly Rate
+                    </Button>
+                  </form>
+                </TabsContent>
+              </Tabs>
             </div>
           </div>
         </div>
