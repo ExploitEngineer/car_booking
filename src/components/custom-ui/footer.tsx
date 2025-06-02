@@ -1,0 +1,148 @@
+"use client";
+
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import { useEffect } from "react";
+import { ArrowUpRight } from "lucide-react";
+
+const quickLinks = [
+  { name: "Home", href: "#home" },
+  { name: "Fleet", href: "#fleet" },
+  { name: "Services", href: "#services" },
+  { name: "About", href: "#about" },
+  { name: "Contact", href: "#contact" },
+];
+
+const services = [
+  { name: "Executive Chauffeur", href: "#" },
+  { name: "Airport Transfers", href: "#" },
+  { name: "Corporate Events", href: "#" },
+  { name: "Special Occasions", href: "#" },
+];
+
+const legal = [
+  { name: "Privacy Policy", href: "#" },
+  { name: "Terms of Service", href: "#" },
+  { name: "Cookie Policy", href: "#" },
+];
+
+gsap.registerPlugin(ScrollTrigger);
+
+export function Footer() {
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.gsap && ScrollTrigger) {
+      window.gsap.registerPlugin(ScrollTrigger);
+
+      window.gsap.fromTo(
+        ".footer-content",
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".footer-section",
+            start: "top 90%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    }
+  }, []);
+
+  return (
+    <footer className="footer-section bg-neutral-900 text-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
+        <div className="footer-content">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+            {/* Company Info */}
+            <div className="lg:col-span-2">
+              <h3 className="text-3xl font-light tracking-wider mb-8">ELITE</h3>
+              <p className="text-neutral-400 font-light leading-relaxed max-w-md mb-8">
+                Redefining luxury transportation with unparalleled service,
+                premium vehicles, and meticulous attention to detail since 1995.
+              </p>
+              <div className="flex space-x-6">
+                <a
+                  href="#"
+                  className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm font-light uppercase tracking-wider"
+                >
+                  Instagram
+                </a>
+                <a
+                  href="#"
+                  className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm font-light uppercase tracking-wider"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href="#"
+                  className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm font-light uppercase tracking-wider"
+                >
+                  Twitter
+                </a>
+              </div>
+            </div>
+
+            {/* Navigation */}
+            <div>
+              <h4 className="text-lg font-light mb-8">Navigation</h4>
+              <ul className="space-y-4">
+                {quickLinks.map((link, index) => (
+                  <li key={index}>
+                    <a
+                      href={link.href}
+                      className="text-neutral-400 hover:text-white transition-colors duration-300 font-light group flex items-center"
+                    >
+                      {link.name}
+                      <ArrowUpRight className="h-3 w-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Services */}
+            <div>
+              <h4 className="text-lg font-light mb-8">Services</h4>
+              <ul className="space-y-4">
+                {services.map((service, index) => (
+                  <li key={index}>
+                    <a
+                      href={service.href}
+                      className="text-neutral-400 hover:text-white transition-colors duration-300 font-light group flex items-center"
+                    >
+                      {service.name}
+                      <ArrowUpRight className="h-3 w-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-neutral-800 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+              <p className="text-neutral-500 font-light text-sm">
+                © {new Date().getFullYear()} Elite Transportation. All rights
+                reserved.
+              </p>
+              <div className="flex space-x-8">
+                {legal.map((item, index) => (
+                  <a
+                    key={index}
+                    href={item.href}
+                    className="text-neutral-500 hover:text-neutral-300 transition-colors duration-300 text-sm font-light"
+                  >
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
