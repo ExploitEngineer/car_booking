@@ -113,36 +113,40 @@ export function Footer() {
         <div className="footer-content">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             {/* Company Info */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 relative">
               <Image
-              src="/assets/images/6.svg"
-              width={200}
-              height={100}
-              alt="company logo"
+                src="/assets/images/6.svg"
+                className="absolute -top-10"
+                width={200}
+                height={100}
+                alt="company logo"
               />
-              <p className="text-neutral-400 font-light leading-relaxed max-w-md mb-8">
-                Redefining luxury transportation with unparalleled service,
-                premium vehicles, and meticulous attention to detail since 1995.
-              </p>
-              <div className="flex space-x-6">
-                <a
-                  href="#"
-                  className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm font-light uppercase tracking-wider"
-                >
-                  Instagram
-                </a>
-                <a
-                  href="#"
-                  className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm font-light uppercase tracking-wider"
-                >
-                  LinkedIn
-                </a>
-                <a
-                  href="#"
-                  className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm font-light uppercase tracking-wider"
-                >
-                  Twitter
-                </a>
+              <div className="mt-42">
+                <p className="text-neutral-400 font-light leading-relaxed max-w-md mb-8">
+                  Redefining luxury transportation with unparalleled service,
+                  premium vehicles, and meticulous attention to detail since
+                  1995.
+                </p>
+                <div className="flex space-x-6">
+                  <a
+                    href="#"
+                    className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm font-light uppercase tracking-wider"
+                  >
+                    Instagram
+                  </a>
+                  <a
+                    href="#"
+                    className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm font-light uppercase tracking-wider"
+                  >
+                    LinkedIn
+                  </a>
+                  <a
+                    href="#"
+                    className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm font-light uppercase tracking-wider"
+                  >
+                    Twitter
+                  </a>
+                </div>
               </div>
             </div>
 

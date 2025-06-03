@@ -215,7 +215,7 @@ export function HeroSection() {
                         event.preventDefault();
                         addViaField();
                       }}
-                      className="text-neutral-400 hover:text-white cursor-pointer bg-transparent flex items-center space-x-2"
+                      className="text-neutral-700 hover:text-white cursor-pointer bg-transparent flex items-center space-x-2"
                     >
                       <Plus className="h-5 w-5" />
                       <span>Add Via</span>
