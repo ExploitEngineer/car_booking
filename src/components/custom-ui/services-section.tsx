@@ -37,6 +37,12 @@ const services = [
       "Bespoke luxury experiences for weddings, galas, and milestone celebrations.",
     image: "/assets/images/bmw.webp",
   },
+  {
+    number: "05",
+    title: "Wedding Services",
+    description: "Celebrate your special day with our bespoke luxury transportation services tailored for weddings.",
+    image: "/assets/images/img1.jpeg"
+  }
 ];
 
 export function ServicesSection() {

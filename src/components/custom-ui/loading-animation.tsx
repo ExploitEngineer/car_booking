@@ -167,7 +167,7 @@ export function LoadingAnimation() {
         {/* Loading Text */}
         <div ref={textRef} className="mb-6">
           <h2 className="text-2xl font-light text-neutral-900 tracking-wider mb-2">
-            ELITE
+            TEXAS LIMO
           </h2>
           <p className="text-sm font-light text-neutral-600 uppercase tracking-widest">
             Loading Experience

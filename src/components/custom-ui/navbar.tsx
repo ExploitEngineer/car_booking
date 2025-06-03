@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { Menu, X, Phone } from "lucide-react";
@@ -70,11 +71,14 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Enhanced Logo */}
-          <div className="nav-item flex items-center space-x-3">
-            <div className="logo-icon w-10 h-10 bg-neutral-900 flex items-center justify-center">
-              <div className="w-6 h-6 border-2 border-white transform rotate-45"></div>
-            </div>
-            <div>
+          <div className="nav-item flex items-end space-x-2">
+            <Image
+              src="/assets/images/logo.png"
+              width={80}
+              height={80}
+              alt="logo"
+            />
+            <div className="">
               <h1 className="text-2xl font-light tracking-[0.2em] text-neutral-900">
                 TEXAS LIMO
               </h1>
@@ -105,12 +109,14 @@ export function Navigation() {
               className="flex items-center space-x-2 text-neutral-700 hover:text-neutral-900 transition-colors duration-300"
             >
               <Phone className="h-4 w-4" />
-              <span className="text-sm font-light">+1 (555) 123-4567</span>
+              <span className="text-sm font-light">+1 (409) 443-1748</span>
             </a>
             <div className="w-px h-6 bg-neutral-300"></div>
+            <a href="https://web.whatsapp.com" target="_blank">
             <Button className="bg-neutral-900 hover:bg-neutral-800 cursor-pointer text-white text-sm font-light px-8 py-3 h-auto rounded-none border-0 transition-all duration-300 tracking-wide">
               Reserve Now
             </Button>
+            </a>
           </div>
 
           {/* Mobile menu */}

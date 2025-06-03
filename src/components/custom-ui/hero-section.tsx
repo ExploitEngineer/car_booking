@@ -1,8 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
 import { gsap } from "gsap";
 import Link from "next/link";
-import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,6 +20,7 @@ import { ArrowRight, Plus } from "lucide-react";
 
 export function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
+  const router = useRouter();
   const [viaFields, setViaFields] = useState<string[]>([]);
 
   const addViaField = () => {
@@ -27,6 +29,19 @@ export function HeroSection() {
 
   const removeViaField = (index: number) => {
     setViaFields((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const isValid = form.checkValidity();
+
+    if (isValid) {
+      router.push("/car-selection");
+    } else {
+      form.reportValidity();
+    }
   };
 
   useGSAP(
@@ -106,13 +121,12 @@ export function HeroSection() {
           <div className="space-y-12">
             <div className="space-y-8">
               <h1 className="hero-title text-6xl md:text-7xl lg:text-8xl font-extralight leading-[0.9] text-neutral-900 tracking-tight">
-                Luxury
-                <span className="block font-light">Redefined</span>
+                Your Journey.
+                <span className="block font-light">Our Priority</span>
               </h1>
 
-              <p className="hero-subtitle text-xl font-light text-neutral-600 max-w-lg leading-relaxed">
-                Experience unparalleled elegance with our curated fleet of
-                premium vehicles and white-glove service.
+              <p className="hero-subtitle text-xl font-light text-neutral-600 max-w-lg ">
+               Discover the ultimate in luxury and convenience with our premium car booking service. Whether it's a business trip, airport transfer, or a special ocassion, we redefine travel with elegance and comfort.
               </p>
             </div>
 
@@ -146,7 +160,7 @@ export function HeroSection() {
                 </TabsList>
 
                 <TabsContent value="instant-quote">
-                  <form className="space-y-6">
+                  <form className="space-y-6" onSubmit={handleFormSubmit}>
                     <div className="space-y-2">
                       <Label
                         htmlFor="car-type"
@@ -154,7 +168,7 @@ export function HeroSection() {
                       >
                         Car Type
                       </Label>
-                      <Select>
+                      <Select required>
                         <SelectTrigger className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light">
                           <SelectValue placeholder="Select car type" />
                         </SelectTrigger>
@@ -177,6 +191,7 @@ export function HeroSection() {
                         From
                       </Label>
                       <Input
+                        required
                         id="pickup-location"
                         placeholder="Enter pickup post code, venue or place"
                         className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
@@ -229,6 +244,7 @@ export function HeroSection() {
                         TO
                       </Label>
                       <Input
+                        required
                         id="dropof-location"
                         placeholder="Enter pickup post code, venue or place"
                         className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
@@ -272,13 +288,13 @@ export function HeroSection() {
                       </TabsContent>
                     </Tabs>
 
-                    <Link href="/car-selection">
-                    <Button className="w-full cursor-pointer bg-neutral-900 hover:bg-neutral-800 text-white py-4 text-base font-light rounded-none border-0 transition-all duration-300">
+                    <Button
+                      type="submit"
+                      className="w-full cursor-pointer bg-neutral-900 hover:bg-neutral-800 text-white py-4 text-base font-light rounded-none border-0 transition-all duration-300"
+                    >
                       <span>Calculate Price</span>
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                     </Button>
-                    </Link>
-
                   </form>
                 </TabsContent>
 
@@ -292,6 +308,7 @@ export function HeroSection() {
                         From
                       </Label>
                       <Input
+                        required
                         id="pickup-location-hourly"
                         placeholder="Enter pickup post code, venue or place"
                         className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
@@ -306,6 +323,7 @@ export function HeroSection() {
                         DATE & TIME
                       </Label>
                       <Input
+                        required
                         id="date&time"
                         type="datetime-local"
                         className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
@@ -313,12 +331,11 @@ export function HeroSection() {
                     </div>
 
                     <Link href="/car-selection">
-                    <Button className="w-full cursor-pointer bg-neutral-900 hover:bg-neutral-800 text-white py-4 text-base font-light rounded-none border-0 transition-all duration-300">
-                      <span>Calculate Price</span>
-                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                    </Button>
+                      <Button className="w-full cursor-pointer bg-neutral-900 hover:bg-neutral-800 text-white py-4 text-base font-light rounded-none border-0 transition-all duration-300">
+                        <span>Calculate Price</span>
+                        <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                      </Button>
                     </Link>
-
                   </form>
                 </TabsContent>
               </Tabs>

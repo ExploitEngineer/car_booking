@@ -115,13 +115,13 @@ export function Footer() {
             {/* Company Info */}
             <div className="lg:col-span-2 relative">
               <Image
-                src="/assets/images/6.svg"
-                className="absolute -top-10"
-                width={200}
-                height={100}
+                src="/assets/images/1.png"
+                className="absolute -top-20"
+                width={180}
+                height={180}
                 alt="company logo"
               />
-              <div className="mt-42">
+              <div className="mt-30">
                 <p className="text-neutral-400 font-light leading-relaxed max-w-md mb-8">
                   Redefining luxury transportation with unparalleled service,
                   premium vehicles, and meticulous attention to detail since
