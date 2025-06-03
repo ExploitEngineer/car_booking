@@ -14,14 +14,14 @@ const services = [
     title: "Executive Chauffeur",
     description:
       "Professional drivers with extensive training in luxury service protocols and discretion.",
-    image: "/assets/images/img.jpeg",
+    image: "/assets/images/blackcar.jpg",
   },
   {
     number: "02",
     title: "Airport Transfers",
     description:
       "Seamless transportation with flight monitoring and personalized meet & greet service.",
-    image: "/assets/images/img1.jpeg",
+    image: "/assets/images/mercedes.jpg",
   },
   {
     number: "03",

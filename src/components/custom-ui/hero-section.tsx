@@ -1,8 +1,9 @@
 "use client";
 
+import { gsap } from "gsap";
+import Link from "next/link";
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
-import { gsap } from "gsap";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -136,8 +137,12 @@ export function HeroSection() {
               {/* Tabs */}
               <Tabs defaultValue="instant-quote">
                 <TabsList className="flex space-x-4 mb-6">
-                  <TabsTrigger value="instant-quote">Instant Quote</TabsTrigger>
-                  <TabsTrigger value="hourly-rate">Hourly Rate</TabsTrigger>
+                  <TabsTrigger className="cursor-pointer" value="instant-quote">
+                    Instant Quote
+                  </TabsTrigger>
+                  <TabsTrigger className="cursor-pointer" value="hourly-rate">
+                    Hourly Rate
+                  </TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="instant-quote">
@@ -210,7 +215,7 @@ export function HeroSection() {
                         event.preventDefault();
                         addViaField();
                       }}
-                      className="text-neutral-400 hover:text-neutral-900 bg-transparent flex items-center space-x-2"
+                      className="text-neutral-400 hover:text-white cursor-pointer bg-transparent flex items-center space-x-2"
                     >
                       <Plus className="h-5 w-5" />
                       <span>Add Via</span>
@@ -267,9 +272,13 @@ export function HeroSection() {
                       </TabsContent>
                     </Tabs>
 
-                    <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white py-4 text-base font-light rounded-none border-0 transition-all duration-300">
-                      Get Instant Quote
+                    <Link href="/car-selection">
+                    <Button className="w-full cursor-pointer bg-neutral-900 hover:bg-neutral-800 text-white py-4 text-base font-light rounded-none border-0 transition-all duration-300">
+                      <span>Calculate Price</span>
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                     </Button>
+                    </Link>
+
                   </form>
                 </TabsContent>
 
@@ -303,9 +312,13 @@ export function HeroSection() {
                       />
                     </div>
 
-                    <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white py-4 text-base font-light rounded-none border-0 transition-all duration-300">
-                      Get Hourly Rate
+                    <Link href="/car-selection">
+                    <Button className="w-full cursor-pointer bg-neutral-900 hover:bg-neutral-800 text-white py-4 text-base font-light rounded-none border-0 transition-all duration-300">
+                      <span>Calculate Price</span>
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                     </Button>
+                    </Link>
+
                   </form>
                 </TabsContent>
               </Tabs>
