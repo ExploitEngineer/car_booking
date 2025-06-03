@@ -126,7 +126,7 @@ export function HeroSection() {
               </h1>
 
               <p className="hero-subtitle text-xl font-light text-neutral-600 max-w-lg ">
-               Discover the ultimate in luxury and convenience with our premium car booking service. Whether it's a business trip, airport transfer, or a special ocassion, we redefine travel with elegance and comfort.
+               Discover the ultimate in luxury and convenience with our premium car booking service. Whether it&apos;s a business trip, airport transfer, or a special ocassion, we redefine travel with elegance and comfort.
               </p>
             </div>
 
