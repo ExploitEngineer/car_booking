@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState } from "react";
 import { gsap } from "gsap";
 import Link from "next/link";
 import { useGSAP } from "@gsap/react";
