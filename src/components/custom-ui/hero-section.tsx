@@ -247,6 +247,7 @@ export function HeroSection() {
                         </Label>
                         <div className="flex items-center border border-neutral-300 px-2 py-1 rounded-none">
                           <Button
+                            type="button"
                             variant="ghost"
                             size="icon"
                             onClick={() =>
@@ -259,6 +260,7 @@ export function HeroSection() {
                             {passengerCount}
                           </span>
                           <Button
+                            type="button"
                             variant="ghost"
                             size="icon"
                             onClick={() => setPassengerCount((v) => v + 1)}
@@ -275,6 +277,7 @@ export function HeroSection() {
                         </Label>
                         <div className="flex items-center border border-neutral-300 px-2 py-1 rounded-none">
                           <Button
+                            type="button"
                             variant="ghost"
                             size="icon"
                             onClick={() =>
@@ -287,6 +290,7 @@ export function HeroSection() {
                             {luggageCount}
                           </span>
                           <Button
+                            type="button"
                             variant="ghost"
                             size="icon"
                             onClick={() => setLuggageCount((v) => v + 1)}
