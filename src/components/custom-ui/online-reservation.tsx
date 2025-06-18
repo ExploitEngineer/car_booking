@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   useJsApiLoader,
   GoogleMap,
@@ -107,11 +107,16 @@ export default function OnlineReservation() {
   const autocompleteRefs = useRef<google.maps.places.Autocomplete[]>([]);
 
   const GOOGLE_MAPS_LIBRARIES: Libraries = ["places"];
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey:
-      process.env.NEXT_PUBLIC_CAR_BOOKING_APP_GOOGLEMAPS_API_KEY!,
+      process.env.NEXT_PUBLIC_CAR_BOOKING_APP_GOOGLEMAPS_API_KEY ?? "",
     libraries: GOOGLE_MAPS_LIBRARIES,
   });
 
@@ -161,7 +166,7 @@ export default function OnlineReservation() {
     setStep(target);
   };
 
-  if (!isLoaded)
+  if (!isClient || !isLoaded)
     return (
       <div className="w-full h-screen flex items-center justify-center">
         Loading...
