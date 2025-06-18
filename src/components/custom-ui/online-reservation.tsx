@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
 import {
   useJsApiLoader,
   GoogleMap,
@@ -17,7 +18,17 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Plus, Minus, Users, Luggage } from "lucide-react";
+import {
+  Plus,
+  Minus,
+  ArrowRight,
+  ArrowLeft,
+  Users,
+  Luggage,
+  X,
+} from "lucide-react";
+import { Navigation } from "@/components/custom-ui/navbar";
+import { Libraries } from "@react-google-maps/api";
 
 const Cars = [
   {
@@ -28,7 +39,7 @@ const Cars = [
     price: 591.19,
   },
   {
-    name: "Mercedes Benz S500 S...",
+    name: "Mercedes Benz S500",
     img: "/assets/images/car1.png",
     passengers: 8,
     luggage: 12,
@@ -63,14 +74,14 @@ const Cars = [
     price: 1193.87,
   },
   {
-    name: "Mercedes Benz Limo Sp...",
+    name: "Mercedes Benz Limo",
     img: "/assets/images/car1.png",
     passengers: 13,
     luggage: 10,
     price: 822.9,
   },
   {
-    name: "Mercedes Benz CEO/JE...",
+    name: "Mercedes Benz CEO/JET",
     img: "/assets/images/car1.png",
     passengers: 8,
     luggage: 12,
@@ -79,377 +90,377 @@ const Cars = [
 ];
 
 export default function OnlineReservation() {
-  const [pickupLocation, setPickupLocation] = useState<string>("");
-  const [dropoffLocation, setDropoffLocation] = useState<string>("");
-  const [viaFields, setViaFields] = useState<string[]>([]);
-  const [passengerCount, setPassengerCount] = useState<number>(1);
-  const [luggageCount, setLuggageCount] = useState<number>(0);
-  const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [directionsResponse, setDirectionsResponse] =
-    useState<google.maps.DirectionsResult | null>(null);
-  const autocompleteInstances = useRef<google.maps.places.Autocomplete[]>([]);
-  const [step, setStep] = useState<number>(1);
-  const [promoCode, setPromoCode] = useState<string>("");
-  const [discount, setDiscount] = useState<number>(0);
+  const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const { isLoaded } = useJsApiLoader({
+  const [step, setStep] = useState(1);
+  const [carType, setCarType] = useState<string>("");
+  const [pickupLocation, setPickupLocation] = useState("");
+  const [dropoffLocation, setDropoffLocation] = useState("");
+  const [viaFields, setViaFields] = useState<string[]>([]);
+  const [passengerCount, setPassengerCount] = useState(1);
+  const [luggageCount, setLuggageCount] = useState(0);
+  const [promoCode, setPromoCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [directions, setDirections] =
+    useState<google.maps.DirectionsResult | null>(null);
+  const autocompleteRefs = useRef<google.maps.places.Autocomplete[]>([]);
+
+  const GOOGLE_MAPS_LIBRARIES: Libraries = ["places"];
+
+  const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey:
-      process.env.NEXT_PUBLIC_CAR_BOOKING_APP_GOOGLEMAPS_API_KEY || "",
-    libraries: ["places"],
+      process.env.NEXT_PUBLIC_CAR_BOOKING_APP_GOOGLEMAPS_API_KEY!,
+    libraries: GOOGLE_MAPS_LIBRARIES,
   });
 
-  const handlePlaceChanged = async (
-    index: number,
-    type: "pickup" | "dropoff" | "via"
-  ) => {
-    const autocomplete = autocompleteInstances.current[index];
-    if (autocomplete) {
-      const place = autocomplete.getPlace();
-      if (place && place.geometry) {
-        const location = place.geometry.location;
-        if (type === "pickup") {
-          setPickupLocation(place.formatted_address || "");
-          map?.panTo(location as google.maps.LatLng);
-        } else if (type === "dropoff") {
-          setDropoffLocation(place.formatted_address || "");
-          map?.panTo(location as google.maps.LatLng);
-        } else {
-          setViaFields((prev) => {
-            const updated = [...prev];
-            updated[index] = place.formatted_address || "";
-            return updated;
-          });
-        }
-        if (pickupLocation && dropoffLocation) {
-          calculateRoute();
-        }
-      }
+  const handlePlace = (i: number, type: "pickup" | "via" | "dropoff") => {
+    const ac = autocompleteRefs.current[i];
+    if (!ac) return;
+    const place = ac.getPlace();
+    if (place?.formatted_address && place.geometry?.location) {
+      const addr = place.formatted_address;
+      const loc = place.geometry.location;
+      if (type === "pickup") setPickupLocation(addr);
+      else if (type === "dropoff") setDropoffLocation(addr);
+      else
+        setViaFields((prev) =>
+          prev.map((v, idx) => (idx === i - 1 ? addr : v))
+        );
+      map?.panTo(loc);
+      if (pickupLocation && dropoffLocation) calculateRoute();
     }
   };
 
   const calculateRoute = async () => {
     if (!pickupLocation || !dropoffLocation) return;
-
-    const directionsService = new google.maps.DirectionsService();
-    const waypoints = viaFields.map((via) => ({
-      location: via,
-      stopover: true,
-    }));
-
-    const result = await directionsService.route({
+    const ds = new google.maps.DirectionsService();
+    const wps = viaFields.map((v) => ({ location: v, stopover: true }));
+    const res = await ds.route({
       origin: pickupLocation,
       destination: dropoffLocation,
-      waypoints,
       travelMode: google.maps.TravelMode.DRIVING,
+      waypoints: wps,
     });
-
-    setDirectionsResponse(result);
+    setDirections(res);
   };
 
-  const addViaField = () => setViaFields((prev) => [...prev, ""]);
-  const removeViaField = (index: number) =>
-    setViaFields((prev) => prev.filter((_, i) => i !== index));
+  const addVia = () => setViaFields((prev) => [...prev, ""]);
+  const removeVia = (i: number) =>
+    setViaFields((prev) => prev.filter((_, idx) => idx !== i));
 
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!pickupLocation || !dropoffLocation) {
-      alert("Please fill out all required fields.");
-      return;
+  const goToStep = (target: number) => {
+    if (target === 2) {
+      const form = formRef.current;
+      if (form && !form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
     }
-    setStep(2); // Move to the next step
+    setStep(target);
   };
 
-  const applyPromoCode = () => {
-    if (promoCode.toLowerCase() === "whoami") {
-      setDiscount(25); // Apply 25% discount
-      alert("Promo code applied! You get a 25% discount.");
-    } else {
-      alert("Invalid promo code.");
-    }
-  };
-
-  if (!isLoaded) return <div>Loading...</div>;
+  if (!isLoaded)
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-neutral-50 lg:p-10">
-      {step === 1 ? (
-        <>
-          {/* Step 1: Form Section */}
-          <div className="lg:w-1/2 bg-white p-8 shadow-md">
-            <h2 className="text-3xl font-light text-neutral-900 mb-6">
-              Book Your Ride
-            </h2>
-            <form className="space-y-6" onSubmit={handleFormSubmit}>
-              {/* Service Type */}
-              <div className="space-y-2">
-                <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
-                  Service Type
-                </Label>
-                <Select required>
-                  <SelectTrigger className="h-12 rounded-none bg-white border-neutral-300 hover:border-neutral-400 font-light">
-                    <SelectValue placeholder="Select service type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="one-way">One Way</SelectItem>
-                    <SelectItem value="round-trip">Round Trip</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+    <div className="flex flex-col bg-neutral-50 min-h-screen">
+      <Navigation animate={false} />
+      <div
+        className="relative w-full lg:min-h-[60vh] min-h-[50vh] my-20 bg-cover bg-center flex items-center justify-center"
+        style={{ backgroundImage: "url('/assets/images/limousine.jpg')" }}
+      >
+        <div className="absolute inset-0 bg-neutral-900 opacity-40" />
+        <h1 className="relative text-4xl md:text-7xl font-extralight text-white tracking-tight">
+          Instant Online Booking
+        </h1>
+      </div>
 
-              {/* Pickup Date & Time */}
-              <div className="space-y-2">
-                <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
-                  Pickup Date & Time
-                </Label>
-                <Input
-                  type="datetime-local"
-                  className="h-12 rounded-none"
-                  required
-                />
-              </div>
+      {/* Stepper */}
+      <div className="flex justify-center items-center space-x-8 mt-6">
+        {["Details", "Choose Vehicle"].map((label: string, i: number) => (
+          <button
+            key={i}
+            onClick={() => goToStep(i + 1)}
+            className={`flex flex-col items-center cursor-pointer ${
+              step === i + 1 ? "text-neutral-900" : "text-neutral-500"
+            }`}
+          >
+            <span
+              className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                step === i + 1 ? "bg-neutral-900 text-white" : "bg-neutral-200"
+              }`}
+            >
+              {i + 1}
+            </span>
+            <span className="text-xs font-light mt-2">{label}</span>
+          </button>
+        ))}
+      </div>
 
-              {/* Pickup Location */}
-              <div className="space-y-2">
-                <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
-                  Pickup Location
-                </Label>
-                <Autocomplete
-                  onLoad={(autocomplete) =>
-                    (autocompleteInstances.current[0] = autocomplete)
-                  }
-                  onPlaceChanged={() => handlePlaceChanged(0, "pickup")}
-                >
-                  <Input
-                    value={pickupLocation}
-                    onChange={(e) => setPickupLocation(e.target.value)}
-                    placeholder="Enter pickup location"
-                    className="h-12 rounded-none"
-                    required
-                  />
-                </Autocomplete>
-              </div>
+      <div className="flex flex-col lg:flex-row lg:items-center flex-grow p-8 lg:p-12 gap-8">
+        {step === 1 ? (
+          <>
+            <div className="lg:w-1/2 bg-white border rounded-md border-neutral-200 shadow-sm p-8">
+              <h2 className="text-2xl font-light text-neutral-900 mb-4">
+                Book Your Ride
+              </h2>
+              <form ref={formRef} className="space-y-6">
+                <div className="space-y-2">
+                  <Label>Car Type</Label>
+                  <Select required value={carType} onValueChange={setCarType}>
+                    <SelectTrigger className="h-12 rounded-none bg-white border-neutral-300 hover:border-neutral-400 font-light">
+                      <SelectValue placeholder="Select car type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="luxury-sedan">Luxury Sedan</SelectItem>
+                      <SelectItem value="suv">Premium SUV</SelectItem>
+                      <SelectItem value="limousine">Limousine</SelectItem>
+                      <SelectItem value="sports-car">Sports Car</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              {/* Via Fields */}
-              {viaFields.map((via, index) => (
-                <div key={index} className="space-y-2">
-                  <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
-                    Add Stop
-                  </Label>
-                  <div className="flex items-center space-x-2">
-                    <Autocomplete
-                      onLoad={(autocomplete) =>
-                        (autocompleteInstances.current[index + 1] =
-                          autocomplete)
-                      }
-                      onPlaceChanged={() =>
-                        handlePlaceChanged(index + 1, "via")
-                      }
-                    >
-                      <Input
-                        value={via}
-                        onChange={(e) =>
-                          setViaFields((prev) => {
-                            const updated = [...prev];
-                            updated[index] = e.target.value;
-                            return updated;
-                          })
-                        }
-                        placeholder="Enter stop location"
-                        className="h-12 rounded-none flex-grow"
-                      />
-                    </Autocomplete>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeViaField(index)}
-                      className="text-neutral-400 hover:text-neutral-900"
-                    >
-                      ✕
-                    </Button>
+                <div className="space-y-2">
+                  <Label>Pickup Location</Label>
+                  <Autocomplete
+                    onLoad={(ac) => (autocompleteRefs.current[0] = ac)}
+                    onPlaceChanged={() => handlePlace(0, "pickup")}
+                  >
+                    <Input
+                      value={pickupLocation}
+                      onChange={(e) => setPickupLocation(e.target.value)}
+                      placeholder="Enter pickup location"
+                      className="h-12 rounded-none"
+                      required
+                    />
+                  </Autocomplete>
+                </div>
+
+                {viaFields.map((via, i) => (
+                  <div key={i} className="space-y-2">
+                    <Label>Via</Label>
+                    <div className="flex items-center gap-2">
+                      <Autocomplete
+                        onLoad={(ac) => (autocompleteRefs.current[i + 1] = ac)}
+                        onPlaceChanged={() => handlePlace(i + 1, "via")}
+                      >
+                        <Input
+                          value={via}
+                          onChange={(e) => {
+                            const tmp = [...viaFields];
+                            tmp[i] = e.target.value;
+                            setViaFields(tmp);
+                          }}
+                          placeholder="Enter stopover location"
+                          className="h-12 rounded-none flex-grow"
+                        />
+                      </Autocomplete>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="cursor-pointer"
+                        onClick={() => removeVia(i)}
+                      >
+                        <X />
+                      </Button>
+                    </div>
                   </div>
+                ))}
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="flex items-center space-x-2 cursor-pointer"
+                  onClick={addVia}
+                >
+                  <Plus />
+                  <span>Add Via</span>
+                </Button>
+
+                <div className="space-y-2">
+                  <Label>Dropoff Location</Label>
+                  <Autocomplete
+                    onLoad={(ac) =>
+                      (autocompleteRefs.current[viaFields.length + 1] = ac)
+                    }
+                    onPlaceChanged={() =>
+                      handlePlace(viaFields.length + 1, "dropoff")
+                    }
+                  >
+                    <Input
+                      value={dropoffLocation}
+                      onChange={(e) => setDropoffLocation(e.target.value)}
+                      placeholder="Enter dropoff location"
+                      className="h-12 rounded-none"
+                      required
+                    />
+                  </Autocomplete>
+                </div>
+
+                <div className="grid grid-cols-2 gap-6">
+                  {[
+                    {
+                      label: "Passengers",
+                      count: passengerCount,
+                      setter: setPassengerCount,
+                      min: 1,
+                      icon: Users,
+                    },
+                    {
+                      label: "Luggage",
+                      count: luggageCount,
+                      setter: setLuggageCount,
+                      min: 0,
+                      icon: Luggage,
+                    },
+                  ].map(({ label, count, setter, min, icon: Icon }, i) => (
+                    <div key={i} className="space-y-2">
+                      <div className="flex gap-2 ps-1 items-center">
+                        <Icon size={17} />
+                        <Label>{label}</Label>
+                      </div>
+                      <div className="flex items-center border border-neutral-300 px-2 py-1 rounded-none">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => setter((v) => Math.max(min, v - 1))}
+                        >
+                          <Minus />
+                        </Button>
+                        <span className="flex-grow text-center text-neutral-900">
+                          {count}
+                        </span>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => setter((v) => v + 1)}
+                        >
+                          <Plus />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex justify-end">
+                  <Button
+                    type="button"
+                    onClick={() => goToStep(2)}
+                    className="flex items-center bg-neutral-900 hover:bg-neutral-800 transition-all duration-300 cursor-pointer text-white py-4 rounded-none w-full lg:w-auto"
+                  >
+                    Continue
+                    <ArrowRight className="h-5 w-5" />
+                  </Button>
+                </div>
+              </form>
+            </div>
+
+            <div className="lg:w-1/2 h-96 flex items-center lg:min-h-[500px] rounded-md">
+              <div className="w-full h-full lg:w-[80%] lg:h-[80%]">
+                <GoogleMap
+                  center={{ lat: 37.7749, lng: -122.4194 }}
+                  zoom={10}
+                  mapContainerStyle={{
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "0.375rem",
+                  }}
+                  onLoad={setMap}
+                >
+                  {directions && <DirectionsRenderer directions={directions} />}
+                </GoogleMap>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="w-full p-4 bg-[#F8F8F8]">
+            <div className="flex justify-between items-center mb-4">
+              <Button
+                className="transition-all duration-300 cursor-pointer"
+                variant="ghost"
+                onClick={() => goToStep(1)}
+              >
+                <ArrowLeft /> Back to Details
+              </Button>
+              <h2 className="text-2xl font-light">Choose Your Car</h2>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {Cars.map((car, idx) => (
+                <div
+                  key={idx}
+                  className="border border-neutral-200 rounded-md hover:shadow-md transition-all duration-300 cursor-pointer p-4 flex flex-col items-center"
+                >
+                  <h3 className="text-lg font-medium mb-2">{car.name}</h3>
+                  <div
+                    className="w-full h-40 bg-gray-100 bg-center bg-cover mb-4"
+                    style={{ backgroundImage: `url(${car.img})` }}
+                  />
+                  <div className="self-start ps-2">
+                    <p className="flex items-center gap-2 text-sm">
+                      <Users size={17} color="gray" />
+                      {car.passengers} Passengers
+                    </p>
+                    <p className="flex items-center gap-2 text-sm">
+                      <Luggage size={17} color="gray" />
+                      {car.luggage} Luggage
+                    </p>
+                    <p className="text-sm mt-2">
+                      Price: ${(car.price * (1 - discount / 100)).toFixed(2)}
+                    </p>
+                  </div>
+                  <a
+                    href="https://web.whatsapp.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full mt-4"
+                  >
+                    <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white py-2 rounded-none">
+                      Book Now
+                    </Button>
+                  </a>
                 </div>
               ))}
+            </div>
 
-              <Button
-                type="button"
-                onClick={addViaField}
-                className="flex items-center space-x-2 text-neutral-700 hover:text-white bg-transparent"
-              >
-                <Plus className="h-5 w-5" />
-                <span>Add Stop</span>
-              </Button>
-
-              {/* Dropoff Location */}
-              <div className="space-y-2">
-                <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
-                  Dropoff Location
-                </Label>
-                <Autocomplete
-                  onLoad={(autocomplete) =>
-                    (autocompleteInstances.current[viaFields.length + 1] =
-                      autocomplete)
-                  }
-                  onPlaceChanged={() =>
-                    handlePlaceChanged(viaFields.length + 1, "dropoff")
-                  }
-                >
-                  <Input
-                    value={dropoffLocation}
-                    onChange={(e) => setDropoffLocation(e.target.value)}
-                    placeholder="Enter dropoff location"
-                    className="h-12 rounded-none"
-                    required
-                  />
-                </Autocomplete>
-              </div>
-
-              {/* Passengers & Luggage */}
-              <div className="grid grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
-                    Passengers
-                  </Label>
-                  <div className="flex items-center border border-neutral-300 px-2 py-1 rounded-none">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() =>
-                        setPassengerCount((v) => Math.max(1, v - 1))
-                      }
-                    >
-                      <Minus />
-                    </Button>
-                    <span className="flex-grow text-center text-neutral-900">
-                      {passengerCount}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setPassengerCount((v) => v + 1)}
-                    >
-                      <Plus />
-                    </Button>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
-                    Luggage
-                  </Label>
-                  <div className="flex items-center border border-neutral-300 px-2 py-1 rounded-none">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setLuggageCount((v) => Math.max(0, v - 1))}
-                    >
-                      <Minus />
-                    </Button>
-                    <span className="flex-grow text-center text-neutral-900">
-                      {luggageCount}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setLuggageCount((v) => v + 1)}
-                    >
-                      <Plus />
-                    </Button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                className="w-full bg-neutral-900 hover:bg-neutral-800 text-white py-4 font-light rounded-none transition-all duration-300"
-              >
-                Select Vehicle
-              </Button>
-            </form>
-          </div>
-
-          {/* Right Map Section */}
-          <div className="lg:w-1/2 h-[500px] lg:h-[400px] p-4">
-            <GoogleMap
-              center={{ lat: 37.7749, lng: -122.4194 }}
-              zoom={10}
-              mapContainerStyle={{ width: "100%", height: "100%" }}
-              onLoad={(map) => setMap(map)}
-            >
-              {directionsResponse && (
-                <DirectionsRenderer directions={directionsResponse} />
-              )}
-            </GoogleMap>
-          </div>
-        </>
-      ) : (
-        <div className="w-full">
-          {/* Step 2: Car Cards */}
-          <div className="w-full p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {Cars.map((car, _i) => (
-              <div
-                key={_i}
-                className="border border-neutral-300 rounded-lg shadow-md p-4 flex flex-col items-center"
-              >
-                <h3 className="text-lg font-medium text-neutral-900 mb-2">
-                  {car.name}
-                </h3>
-                <div
-                  className="w-full h-44 py-8 bg-gray-100 rounded-md mb-4"
-                  style={{
-                    backgroundImage: `url(${car.img})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
+            <div className="bg-white border lg:w-1/3 border-neutral-200 shadow-sm px-8 py-5 ronded-md">
+              <h3 className="text-lg font-light mb-2">Apply Promo Code</h3>
+              <div className="flex items-center gap-4">
+                <Input
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value)}
+                  placeholder="Enter promo code"
+                  className="h-11 rounded-md"
+                />
+                <Button
+                  className="bg-neutral-900 hover:bg-neutral-800 text-white py-5 rounded-md px-8"
+                  onClick={() => {
+                    if (promoCode.trim().toLowerCase() === "whoami") {
+                      setDiscount(25);
+                      alert("Promo code applied: 25% off!");
+                    } else {
+                      alert("Invalid promo code");
+                    }
                   }}
-                ></div>
-                <div className="self-start ps-2 mt-6">
-                  <p className="flex items-center gap-2 text-sm text-neutral-700 mb-2">
-                    <Users size={17} color="gray" />
-                    <span>Passengers: {car.passengers}</span>
-                  </p>
-                  <p className="flex items-center gap-2 text-sm text-neutral-700 mb-2">
-                    <Luggage size={17} color="gray" />
-                    <span>Luggage: {car.luggage}</span>
-                  </p>
-                  <p className="text-sm text-neutral-700 mb-4">
-                    Price: ${(car.price * (1 - discount / 100)).toFixed(2)}
-                  </p>
-                </div>
-                <a
-                  className="w-full"
-                  href="https://web.whatsapp.com"
-                  target="_blank"
                 >
-                  <Button className="w-full cursor-pointer bg-neutral-900 hover:bg-neutral-800 text-white py-2 rounded-md">
-                    Book Now
-                  </Button>
-                </a>
+                  Apply
+                </Button>
               </div>
-            ))}
-          </div>
-
-          {/* Promo Code Section */}
-          <div className="w-full p-8 bg-white shadow-md mt-6">
-            <h3 className="text-lg font-medium text-neutral-900 mb-4">
-              Promo Code
-            </h3>
-            <div className="flex items-center gap-4">
-              <Input
-                value={promoCode}
-                onChange={(e) => setPromoCode(e.target.value)}
-                placeholder="Enter promo code"
-                className="h-12 rounded-none flex-grow"
-              />
-              <Button
-                onClick={applyPromoCode}
-                className="bg-neutral-900 hover:bg-neutral-800 text-white py-2 px-6 rounded-md"
-              >
-                Apply
-              </Button>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

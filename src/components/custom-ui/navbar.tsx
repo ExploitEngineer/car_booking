@@ -15,7 +15,11 @@ import {
 
 const navItems = ["Home", "Fleet", "Services", "About", "Contact"];
 
-export function Navigation() {
+type NavigationProps = {
+  animate?: boolean;
+};
+
+export function Navigation({ animate = true }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLElement>(null);
@@ -30,6 +34,8 @@ export function Navigation() {
 
   useGSAP(
     () => {
+      if (!animate) return;
+
       gsap.fromTo(
         ".nav-item",
         { y: -30, opacity: 0 },
@@ -113,9 +119,9 @@ export function Navigation() {
             </a>
             <div className="w-px h-6 bg-neutral-300"></div>
             <a href="https://web.whatsapp.com" target="_blank">
-            <Button className="bg-neutral-900 hover:bg-neutral-800 cursor-pointer text-white text-sm font-light px-8 py-3 h-auto rounded-none border-0 transition-all duration-300 tracking-wide">
-              Reserve Now
-            </Button>
+              <Button className="bg-neutral-900 hover:bg-neutral-800 cursor-pointer text-white text-sm font-light px-8 py-3 h-auto rounded-none border-0 transition-all duration-300 tracking-wide">
+                Reserve Now
+              </Button>
             </a>
           </div>
 

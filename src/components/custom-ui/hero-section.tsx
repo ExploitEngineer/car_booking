@@ -109,8 +109,11 @@ export function HeroSection() {
               car booking service...
             </p>
             <div className="hero-button">
-              <Button className="bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-4 font-light rounded-none transition-all duration-500 group">
-                Explore Collection
+              <Button
+                className="bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-4 cursor-pointer font-light rounded-none transition-all duration-500 group"
+                onClick={() => router.push("/online-reservation")}
+              >
+                Book now
                 <ArrowRight className="ml-3 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </div>
@@ -160,8 +163,7 @@ export function HeroSection() {
                         From
                       </Label>
                       {isLoaded ? (
-                        <StandaloneSearchBox onLoad={onPickupLoad}
-                        >
+                        <StandaloneSearchBox onLoad={onPickupLoad}>
                           <Input
                             id="pickup-location"
                             placeholder="Enter pickup location"
@@ -243,7 +245,6 @@ export function HeroSection() {
 
                     {/* Passengers + Luggage */}
                     <div className="grid grid-cols-2 gap-6">
-
                       {/* Passengers */}
                       <div className="space-y-2">
                         <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
