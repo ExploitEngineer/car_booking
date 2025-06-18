@@ -26,8 +26,6 @@ export function HeroSection() {
   const [viaFields, setViaFields] = useState<string[]>([]);
   const [passengerCount, setPassengerCount] = useState<number>(1);
   const [luggageCount, setLuggageCount] = useState<number>(0);
-  const [pickupBox, setPickupBox] = useState<google.maps.places.SearchBox>();
-  const [dropoffBox, setDropoffBox] = useState<google.maps.places.SearchBox>();
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -35,14 +33,6 @@ export function HeroSection() {
       process.env.NEXT_PUBLIC_CAR_BOOKING_APP_GOOGLEMAPS_API_KEY || "",
     libraries: ["places"],
   });
-
-  const onPickupLoad = useCallback((ref: google.maps.places.SearchBox) => {
-    setPickupBox(ref);
-  }, []);
-
-  const onDropoffLoad = useCallback((ref: google.maps.places.SearchBox) => {
-    setDropoffBox(ref);
-  }, []);
 
   const addViaField = () => setViaFields((p) => [...p, ""]);
   const removeViaField = (i: number) =>
@@ -168,7 +158,7 @@ export function HeroSection() {
                         From
                       </Label>
                       {isLoaded ? (
-                        <StandaloneSearchBox onLoad={onPickupLoad}>
+                        <StandaloneSearchBox onLoad={() => null}>
                           <Input
                             id="pickup-location"
                             placeholder="Enter pickup location"
@@ -193,7 +183,7 @@ export function HeroSection() {
                           Via
                         </Label>
                         <div className="flex items-center space-x-2">
-                          <StandaloneSearchBox key={idx} onLoad={(ref) => null}>
+                          <StandaloneSearchBox key={idx} onLoad={() => null}>
                             <Input
                               className="h-12 rounded-none flex-grow"
                               placeholder="Enter stopover location"
@@ -230,7 +220,7 @@ export function HeroSection() {
                         To
                       </Label>
                       {isLoaded ? (
-                        <StandaloneSearchBox onLoad={onDropoffLoad}>
+                        <StandaloneSearchBox onLoad={() => null}>
                           <Input
                             id="dropoff-location"
                             placeholder="Enter destination"
