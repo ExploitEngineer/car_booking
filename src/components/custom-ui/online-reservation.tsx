@@ -25,6 +25,7 @@ import {
   Users,
   Luggage,
   X,
+  Loader2
 } from "lucide-react";
 import { Navigation } from "@/components/custom-ui/navbar";
 import { Libraries } from "@react-google-maps/api";
@@ -169,7 +170,7 @@ export default function OnlineReservation() {
   if (!isClient || !isLoaded)
     return (
       <div className="w-full h-screen flex items-center justify-center">
-        Loading...
+        <Loader2 color="skyblue" className="w-10 h-10 animate-spin text-primary-foreground" />;
       </div>
     );
 
