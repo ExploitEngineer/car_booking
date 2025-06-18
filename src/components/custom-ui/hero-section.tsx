@@ -26,6 +26,8 @@ export function HeroSection() {
   const [viaFields, setViaFields] = useState<string[]>([]);
   const [passengerCount, setPassengerCount] = useState<number>(1);
   const [luggageCount, setLuggageCount] = useState<number>(0);
+  const [pickupBox, setPickupBox] = useState<google.maps.places.SearchBox>();
+  const [dropoffBox, setDropoffBox] = useState<google.maps.places.SearchBox>();
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -34,10 +36,13 @@ export function HeroSection() {
     libraries: ["places"],
   });
 
-  const onPickupLoad = useCallback((ref: google.maps.places.SearchBox) => {},
-  []);
-  const onDropoffLoad = useCallback((ref: google.maps.places.SearchBox) => {},
-  []);
+  const onPickupLoad = useCallback((ref: google.maps.places.SearchBox) => {
+    setPickupBox(ref);
+  }, []);
+
+  const onDropoffLoad = useCallback((ref: google.maps.places.SearchBox) => {
+    setDropoffBox(ref);
+  }, []);
 
   const addViaField = () => setViaFields((p) => [...p, ""]);
   const removeViaField = (i: number) =>
