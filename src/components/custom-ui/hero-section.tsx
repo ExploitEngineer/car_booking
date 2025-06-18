@@ -26,8 +26,6 @@ export function HeroSection() {
   const [viaFields, setViaFields] = useState<string[]>([]);
   const [passengerCount, setPassengerCount] = useState<number>(1);
   const [luggageCount, setLuggageCount] = useState<number>(0);
-  const [pickupBox, setPickupBox] = useState<google.maps.places.SearchBox>();
-  const [dropoffBox, setDropoffBox] = useState<google.maps.places.SearchBox>();
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -36,8 +34,10 @@ export function HeroSection() {
     libraries: ["places"],
   });
 
-  const onPickupLoad = useCallback((ref: any) => setPickupBox(ref), []);
-  const onDropoffLoad = useCallback((ref: any) => setDropoffBox(ref), []);
+  const onPickupLoad = useCallback((ref: google.maps.places.SearchBox) => {},
+  []);
+  const onDropoffLoad = useCallback((ref: google.maps.places.SearchBox) => {},
+  []);
 
   const addViaField = () => setViaFields((p) => [...p, ""]);
   const removeViaField = (i: number) =>
@@ -354,7 +354,7 @@ export function HeroSection() {
                         From
                       </Label>
                       {isLoaded ? (
-                        <StandaloneSearchBox onLoad={(_) => null}>
+                        <StandaloneSearchBox onLoad={() => null}>
                           <Input
                             placeholder="Enter pickup location"
                             className="h-12 rounded-none"

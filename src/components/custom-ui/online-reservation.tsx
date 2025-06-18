@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import {
   useJsApiLoader,
@@ -90,7 +89,6 @@ const Cars = [
 ];
 
 export default function OnlineReservation() {
-  const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
 
   const [step, setStep] = useState(1);
@@ -110,7 +108,7 @@ export default function OnlineReservation() {
 
   const GOOGLE_MAPS_LIBRARIES: Libraries = ["places"];
 
-  const { isLoaded, loadError } = useJsApiLoader({
+  const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey:
       process.env.NEXT_PUBLIC_CAR_BOOKING_APP_GOOGLEMAPS_API_KEY!,
