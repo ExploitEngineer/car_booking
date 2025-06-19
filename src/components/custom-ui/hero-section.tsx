@@ -337,7 +337,7 @@ export function HeroSection() {
                     {/* Submit */}
                     <Button
                       type="submit"
-                      className="w-full bg-neutral-900 hover:bg-neutral-800 text-white py-4 font-light rounded-none transition-all duration-300"
+                      className="w-full bg-neutral-900 hover:bg-neutral-800 cursor-pointer text-white py-4 font-light rounded-none transition-all duration-300"
                     >
                       Calculate Price
                       <ArrowRight className="ml-2 h-5 w-5" />

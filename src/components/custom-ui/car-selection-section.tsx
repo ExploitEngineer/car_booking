@@ -100,7 +100,7 @@ export function CarSelection() {
                 {/* Price and Button */}
                 <div className="flex items-center justify-between mt-4">
                   <span className="text-lg font-light text-neutral-900">${car.price}</span>
-                  <Button className="bg-neutral-900 hover:bg-neutral-800 text-white px-6 py-2 text-sm font-light rounded-none border-0 transition-all duration-300">
+                  <Button className="bg-neutral-900 hover:bg-neutral-800 text-white px-6 py-2 text-sm font-light cursor-pointer rounded-none border-0 transition-all duration-300">
                     Book Now
                   </Button>
                 </div>
