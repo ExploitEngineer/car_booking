@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   useJsApiLoader,
@@ -92,12 +92,12 @@ const Cars = [
   },
 ];
 
-export default function OnlineReservation() {
+function OnlineReservation() {
   const searchParams = useSearchParams();
-  const initialStep = parseInt(searchParams.get("step") || "1", 10);
+  const stepFromUrl = parseInt(searchParams.get("step") || "1", 10);
 
   const formRef = useRef<HTMLFormElement>(null);
-  const [step, setStep] = useState(initialStep);
+  const [step, setStep] = useState<number>(stepFromUrl);
   const [carType, setCarType] = useState<string>("");
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropoffLocation, setDropoffLocation] = useState("");
@@ -589,5 +589,14 @@ export default function OnlineReservation() {
         )}
       </div>
     </div>
+  );
+}
+
+// Wrap OnlineReservation in a Suspense boundary
+export default function OnlineReservationWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <OnlineReservation />
+    </Suspense>
   );
 }
