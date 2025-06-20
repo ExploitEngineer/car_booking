@@ -15,10 +15,10 @@ import {
 } from "@/components/ui/drawer";
 
 const navItems = [
-  { name: "Home", navigate: "/" },
-  { name: "Fleet", navigate: "/" },
+  { name: "Home", navigate: "#home" },
+  { name: "Fleet", navigate: "#fleet" },
   { name: "Services", navigate: "#services" },
-  { name: "About", navigate: "" },
+  { name: "About", navigate: "#about" },
   { name: "Contact", navigate: "#contact" },
 ];
 
@@ -106,9 +106,8 @@ export function Navigation({ animate = true }: NavigationProps) {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-12">
             {navItems.map((item, index) => (
-              <Link href={item.navigate}>
+              <Link key={index} href={item.navigate}>
                 <div
-                  key={index}
                   className="nav-item text-sm cursor-pointer font-light text-neutral-700 hover:text-neutral-900 transition-all duration-300 relative group tracking-wide py-2"
                   style={{ animationDelay: `${3.9 + index * 0.1}s` }}
                 >
@@ -176,13 +175,14 @@ export function Navigation({ animate = true }: NavigationProps) {
                   </div>
                   <div className="space-y-8">
                     {navItems.map((item, _i) => (
-                      <a
-                        key={_i}
-                        className="block text-neutral-700 hover:text-neutral-900 transition-colors duration-300 py-3 text-lg font-light tracking-wide border-b border-neutral-100 last:border-b-0"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        {item}
-                      </a>
+                      <Link key={_i} href={item.navigate}>
+                        <div
+                          className="block text-neutral-700 hover:text-neutral-900 transition-colors duration-300 py-3 text-lg font-light tracking-wide border-b border-neutral-100 last:border-b-0"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {item.name}
+                        </div>
+                      </Link>
                     ))}
                     <div className="pt-6 space-y-4">
                       <a
