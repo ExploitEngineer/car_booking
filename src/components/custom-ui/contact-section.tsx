@@ -198,7 +198,7 @@ export function ContactSection() {
                 />
               </div>
 
-              <Button className="bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-4 text-base font-light rounded-none border-0 transition-all duration-300 group">
+              <Button className="bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-4 text-base font-light rounded-none border-0 transition-all duration-300 cursor-pointer group">
                 Send Message
                 <ArrowRight className="ml-3 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>

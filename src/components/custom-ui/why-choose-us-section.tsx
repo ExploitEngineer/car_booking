@@ -154,7 +154,7 @@ export function WhyChooseUsSection() {
                 variant="ghost"
                 size="icon"
                 onClick={prevTestimonial}
-                className="text-neutral-400 hover:text-neutral-900 hover:bg-transparent"
+                className="text-neutral-400 cursor-pointer hover:text-neutral-900 hover:bg-transparent"
               >
                 <ChevronLeft className="h-6 w-6" />
               </Button>
@@ -177,7 +177,7 @@ export function WhyChooseUsSection() {
                 variant="ghost"
                 size="icon"
                 onClick={nextTestimonial}
-                className="text-neutral-400 hover:text-neutral-900 hover:bg-transparent"
+                className="text-neutral-400 cursor-pointer hover:text-neutral-900 hover:bg-transparent"
               >
                 <ChevronRight className="h-6 w-6" />
               </Button>

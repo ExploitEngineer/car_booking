@@ -16,7 +16,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { ArrowRight, Plus, Minus } from "lucide-react";
+import { ArrowRight, Plus, Minus, X } from "lucide-react";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 
 export function HeroSection() {
@@ -129,8 +129,12 @@ export function HeroSection() {
 
               <Tabs defaultValue="instant-quote">
                 <TabsList className="flex space-x-4 mb-6">
-                  <TabsTrigger value="instant-quote">Instant Quote</TabsTrigger>
-                  <TabsTrigger value="hourly-rate">Hourly Rate</TabsTrigger>
+                  <TabsTrigger className="cursor-pointer" value="instant-quote">
+                    Instant Quote
+                  </TabsTrigger>
+                  <TabsTrigger className="cursor-pointer" value="hourly-rate">
+                    Hourly Rate
+                  </TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="instant-quote">
@@ -141,7 +145,7 @@ export function HeroSection() {
                         Car Type
                       </Label>
                       <Select required>
-                        <SelectTrigger className="h-12 rounded-none bg-white border-neutral-300 hover:border-neutral-400 font-light">
+                        <SelectTrigger className="h-12 cursor-pointer rounded-none bg-white border-neutral-300 hover:border-neutral-400 font-light">
                           <SelectValue placeholder="Select car type" />
                         </SelectTrigger>
                         <SelectContent>
@@ -197,9 +201,9 @@ export function HeroSection() {
                             size="icon"
                             type="button"
                             onClick={() => removeViaField(idx)}
-                            className="text-neutral-400 hover:text-neutral-900"
+                            className="text-neutral-400 cursor-pointer hover:text-neutral-900"
                           >
-                            ✕
+                            <X />
                           </Button>
                         </div>
                       </div>
@@ -211,7 +215,7 @@ export function HeroSection() {
                         e.preventDefault();
                         addViaField();
                       }}
-                      className="flex items-center space-x-2 text-neutral-700 hover:text-white bg-transparent"
+                      className="flex items-center space-x-2 text-neutral-700 cursor-pointer hover:text-white bg-transparent"
                     >
                       <Plus className="h-5 w-5" />
                       <span>Add Via</span>
@@ -253,6 +257,7 @@ export function HeroSection() {
                             type="button"
                             variant="ghost"
                             size="icon"
+                            className="cursor-pointer"
                             onClick={() =>
                               setPassengerCount((v) => Math.max(1, v - 1))
                             }
@@ -266,6 +271,7 @@ export function HeroSection() {
                             type="button"
                             variant="ghost"
                             size="icon"
+                            className="cursor-pointer"
                             onClick={() => setPassengerCount((v) => v + 1)}
                           >
                             <Plus />
@@ -283,6 +289,7 @@ export function HeroSection() {
                             type="button"
                             variant="ghost"
                             size="icon"
+                            className="cursor-pointer"
                             onClick={() =>
                               setLuggageCount((v) => Math.max(0, v - 1))
                             }
@@ -296,6 +303,7 @@ export function HeroSection() {
                             type="button"
                             variant="ghost"
                             size="icon"
+                            className="cursor-pointer"
                             onClick={() => setLuggageCount((v) => v + 1)}
                           >
                             <Plus />
@@ -307,8 +315,8 @@ export function HeroSection() {
                     {/* Time */}
                     <Tabs defaultValue="on-way">
                       <TabsList className="flex space-x-4 mb-6">
-                        <TabsTrigger value="on-way">One Way</TabsTrigger>
-                        <TabsTrigger value="return">Return</TabsTrigger>
+                        <TabsTrigger className="cursor-pointer" value="on-way">One Way</TabsTrigger>
+                        <TabsTrigger className="cursor-pointer" value="return">Return</TabsTrigger>
                       </TabsList>
 
                       <TabsContent value="on-way">

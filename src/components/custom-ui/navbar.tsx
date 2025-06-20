@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { Menu, X, Phone } from "lucide-react";
@@ -13,7 +14,13 @@ import {
   DrawerClose,
 } from "@/components/ui/drawer";
 
-const navItems = ["Home", "Fleet", "Services", "About", "Contact"];
+const navItems = [
+  { name: "Home", navigate: "/" },
+  { name: "Fleet", navigate: "/" },
+  { name: "Services", navigate: "#services" },
+  { name: "About", navigate: "" },
+  { name: "Contact", navigate: "#contact" },
+];
 
 type NavigationProps = {
   animate?: boolean;
@@ -77,34 +84,38 @@ export function Navigation({ animate = true }: NavigationProps) {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Enhanced Logo */}
-          <div className="nav-item flex items-end space-x-2">
-            <Image
-              src="/assets/images/logo.png"
-              width={80}
-              height={80}
-              alt="logo"
-            />
-            <div className="">
-              <h1 className="text-2xl font-light tracking-[0.2em] text-neutral-900">
-                TEXAS LIMO
-              </h1>
-              <p className="text-xs font-light text-neutral-500 tracking-widest uppercase">
-                Luxury Transport
-              </p>
+          <Link href="/">
+            <div className="nav-item flex items-end space-x-2">
+              <Image
+                src="/assets/images/logo.png"
+                width={80}
+                height={80}
+                alt="logo"
+              />
+              <div>
+                <h1 className="text-2xl font-light tracking-[0.2em] text-neutral-900">
+                  TEXAS LIMO
+                </h1>
+                <p className="text-xs font-light text-neutral-500 tracking-widest uppercase">
+                  Luxury Transport
+                </p>
+              </div>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-12">
             {navItems.map((item, index) => (
-              <a
-                key={index}
-                className="nav-item text-sm cursor-pointer font-light text-neutral-700 hover:text-neutral-900 transition-all duration-300 relative group tracking-wide py-2"
-                style={{ animationDelay: `${3.9 + index * 0.1}s` }}
-              >
-                {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-neutral-900 transition-all duration-500 group-hover:w-full"></span>
-              </a>
+              <Link href={item.navigate}>
+                <div
+                  key={index}
+                  className="nav-item text-sm cursor-pointer font-light text-neutral-700 hover:text-neutral-900 transition-all duration-300 relative group tracking-wide py-2"
+                  style={{ animationDelay: `${3.9 + index * 0.1}s` }}
+                >
+                  {item.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-neutral-900 transition-all duration-500 group-hover:w-full"></span>
+                </div>
+              </Link>
             ))}
           </div>
 
@@ -132,7 +143,7 @@ export function Navigation({ animate = true }: NavigationProps) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="nav-item text-neutral-900 hover:bg-neutral-100 rounded-none"
+                  className="nav-item text-neutral-900 cursor-pointer hover:bg-neutral-100 rounded-none"
                 >
                   <Menu className="h-5 w-5" />
                 </Button>
@@ -157,7 +168,7 @@ export function Navigation({ animate = true }: NavigationProps) {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-neutral-900 rounded-none"
+                        className="text-neutral-900 cursor-pointer rounded-none"
                       >
                         <X className="h-5 w-5" />
                       </Button>
@@ -181,7 +192,7 @@ export function Navigation({ animate = true }: NavigationProps) {
                         <Phone className="h-5 w-5" />
                         <span className="font-light">+1 (555) 123-4567</span>
                       </a>
-                      <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-light rounded-none py-4">
+                      <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-light rounded-none py-4 cursor-pointer">
                         Reserve Now
                       </Button>
                     </div>

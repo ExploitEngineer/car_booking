@@ -230,8 +230,12 @@ export default function OnlineReservation() {
 
               <Tabs defaultValue="instant-quote">
                 <TabsList className="flex space-x-4 mb-6">
-                  <TabsTrigger value="instant-quote">Instant Quote</TabsTrigger>
-                  <TabsTrigger value="hourly-rate">Hourly Rate</TabsTrigger>
+                  <TabsTrigger className="cursor-pointer" value="instant-quote">
+                    Instant Quote
+                  </TabsTrigger>
+                  <TabsTrigger className="cursor-pointer" value="hourly-rate">
+                    Hourly Rate
+                  </TabsTrigger>
                 </TabsList>
 
                 {/* INSTANT QUOTE FORM */}
@@ -247,7 +251,7 @@ export default function OnlineReservation() {
                         value={carType}
                         onValueChange={setCarType}
                       >
-                        <SelectTrigger className="h-12 rounded-none bg-white border-neutral-300 hover:border-neutral-400 font-light">
+                        <SelectTrigger className="h-12 cursor-pointer rounded-none bg-white border-neutral-300 hover:border-neutral-400 font-light">
                           <SelectValue placeholder="Select car type" />
                         </SelectTrigger>
                         <SelectContent>
@@ -309,9 +313,9 @@ export default function OnlineReservation() {
                             size="icon"
                             type="button"
                             onClick={() => removeVia(i)}
-                            className="text-neutral-400 hover:text-neutral-900"
+                            className="text-neutral-400 cursor-pointer hover:text-neutral-900"
                           >
-                            ✕
+                            <X />
                           </Button>
                         </div>
                       </div>
@@ -320,7 +324,7 @@ export default function OnlineReservation() {
                     <Button
                       type="button"
                       onClick={addVia}
-                      className="flex items-center space-x-2 text-neutral-700 hover:text-white bg-transparent"
+                      className="flex cursor-pointer items-center space-x-2 text-neutral-700 hover:text-white bg-transparent"
                     >
                       <Plus className="h-5 w-5" />
                       <span>Add Via</span>
@@ -374,6 +378,7 @@ export default function OnlineReservation() {
                               type="button"
                               variant="ghost"
                               size="icon"
+                              className="cursor-pointer"
                               onClick={() =>
                                 setter((v) => Math.max(min, v - 1))
                               }
@@ -387,6 +392,7 @@ export default function OnlineReservation() {
                               type="button"
                               variant="ghost"
                               size="icon"
+                              className="cursor-pointer"
                               onClick={() => setter((v) => v + 1)}
                             >
                               <Plus />
@@ -399,8 +405,12 @@ export default function OnlineReservation() {
                     {/* Time Tabs */}
                     <Tabs defaultValue="on-way">
                       <TabsList className="flex space-x-4 mb-6">
-                        <TabsTrigger value="on-way">One Way</TabsTrigger>
-                        <TabsTrigger value="return">Return</TabsTrigger>
+                        <TabsTrigger className="cursor-pointer" value="on-way">
+                          One Way
+                        </TabsTrigger>
+                        <TabsTrigger className="cursor-pointer" value="return">
+                          Return
+                        </TabsTrigger>
                       </TabsList>
                       <TabsContent value="on-way">
                         <div className="space-y-2">
@@ -428,12 +438,13 @@ export default function OnlineReservation() {
                     </Tabs>
 
                     {/* Submit */}
-                    <Link href="/car-selection">
-                      <Button className="w-full bg-neutral-900 hover:bg-neutral-800 cursor-pointer text-white py-4 font-light rounded-none transition-all duration-300">
-                        Calculate Price
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </Button>
-                    </Link>
+                    <Button
+                      className="w-full bg-neutral-900 hover:bg-neutral-800 cursor-pointer text-white py-4 font-light rounded-none transition-all duration-300"
+                      onClick={() => goToStep(2)}
+                    >
+                      Calculate Price
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
                   </form>
                 </TabsContent>
 
