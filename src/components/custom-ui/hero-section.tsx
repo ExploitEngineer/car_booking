@@ -41,8 +41,11 @@ export function HeroSection() {
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-    if (form.checkValidity()) router.push("/car-selection");
-    else form.reportValidity();
+    if (form.checkValidity()) {
+      router.push("/online-reservation?step=2");
+    } else {
+      form.reportValidity();
+    }
   };
 
   useGSAP(
@@ -378,7 +381,7 @@ export function HeroSection() {
                         required
                       />
                     </div>
-                    <Link href="/car-selection">
+                    <Link href="/online-reservation">
                       <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white py-4 font-light rounded-none transition-all duration-300">
                         Calculate Price
                         <ArrowRight className="ml-2 h-5 w-5" />

@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   useJsApiLoader,
   GoogleMap,
@@ -25,10 +27,11 @@ import {
   Users,
   Luggage,
   X,
-  Loader2
+  Loader2,
 } from "lucide-react";
 import { Navigation } from "@/components/custom-ui/navbar";
 import { Libraries } from "@react-google-maps/api";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const Cars = [
   {
@@ -90,9 +93,11 @@ const Cars = [
 ];
 
 export default function OnlineReservation() {
-  const formRef = useRef<HTMLFormElement>(null);
+  const searchParams = useSearchParams();
+  const initialStep = parseInt(searchParams.get("step") || "1", 10);
 
-  const [step, setStep] = useState(1);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [step, setStep] = useState(initialStep);
   const [carType, setCarType] = useState<string>("");
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropoffLocation, setDropoffLocation] = useState("");
@@ -169,8 +174,11 @@ export default function OnlineReservation() {
 
   if (!isClient || !isLoaded)
     return (
-      <div className="w-full h-screen flex items-center justify-center">
-        <Loader2 color="skyblue" className="w-10 h-10 animate-spin text-primary-foreground" />
+      <div className="w-full cursor-progress h-screen flex items-center justify-center">
+        <Loader2
+          color="skyblue"
+          className="w-10 h-10 animate-spin text-primary-foreground"
+        />
       </div>
     );
 
@@ -212,162 +220,266 @@ export default function OnlineReservation() {
       <div className="flex flex-col lg:flex-row lg:items-center flex-grow p-8 lg:p-12 gap-8">
         {step === 1 ? (
           <>
-            <div className="lg:w-1/2 bg-white border rounded-md border-neutral-200 shadow-sm p-8">
-              <h2 className="text-2xl font-light text-neutral-900 mb-4">
-                Book Your Ride
-              </h2>
-              <form ref={formRef} className="space-y-6">
-                <div className="space-y-2">
-                  <Label>Car Type</Label>
-                  <Select required value={carType} onValueChange={setCarType}>
-                    <SelectTrigger className="h-12 rounded-none bg-white border-neutral-300 hover:border-neutral-400 font-light">
-                      <SelectValue placeholder="Select car type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="luxury-sedan">Luxury Sedan</SelectItem>
-                      <SelectItem value="suv">Premium SUV</SelectItem>
-                      <SelectItem value="limousine">Limousine</SelectItem>
-                      <SelectItem value="sports-car">Sports Car</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+            <div className="lg:w-1/2 bg-white border border-neutral-200 shadow-sm p-8">
+              <div className="mb-8">
+                <h3 className="text-2xl font-light text-neutral-900 mb-2">
+                  Book Your Ride
+                </h3>
+                <div className="w-12 h-px bg-neutral-900" />
+              </div>
 
-                <div className="space-y-2">
-                  <Label>Pickup Location</Label>
-                  <Autocomplete
-                    onLoad={(ac) => (autocompleteRefs.current[0] = ac)}
-                    onPlaceChanged={() => handlePlace(0, "pickup")}
-                  >
-                    <Input
-                      value={pickupLocation}
-                      onChange={(e) => setPickupLocation(e.target.value)}
-                      placeholder="Enter pickup location"
-                      className="h-12 rounded-none"
-                      required
-                    />
-                  </Autocomplete>
-                </div>
+              <Tabs defaultValue="instant-quote">
+                <TabsList className="flex space-x-4 mb-6">
+                  <TabsTrigger value="instant-quote">Instant Quote</TabsTrigger>
+                  <TabsTrigger value="hourly-rate">Hourly Rate</TabsTrigger>
+                </TabsList>
 
-                {viaFields.map((via, i) => (
-                  <div key={i} className="space-y-2">
-                    <Label>Via</Label>
-                    <div className="flex items-center gap-2">
+                {/* INSTANT QUOTE FORM */}
+                <TabsContent value="instant-quote">
+                  <form ref={formRef} className="space-y-6">
+                    {/* Car Type */}
+                    <div className="space-y-2">
+                      <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
+                        Car Type
+                      </Label>
+                      <Select
+                        required
+                        value={carType}
+                        onValueChange={setCarType}
+                      >
+                        <SelectTrigger className="h-12 rounded-none bg-white border-neutral-300 hover:border-neutral-400 font-light">
+                          <SelectValue placeholder="Select car type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="luxury-sedan">
+                            Luxury Sedan
+                          </SelectItem>
+                          <SelectItem value="suv">Premium SUV</SelectItem>
+                          <SelectItem value="limousine">Limousine</SelectItem>
+                          <SelectItem value="sports-car">Sports Car</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Pickup Location */}
+                    <div className="space-y-2">
+                      <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
+                        From
+                      </Label>
                       <Autocomplete
-                        onLoad={(ac) => (autocompleteRefs.current[i + 1] = ac)}
-                        onPlaceChanged={() => handlePlace(i + 1, "via")}
+                        onLoad={(ac) => (autocompleteRefs.current[0] = ac)}
+                        onPlaceChanged={() => handlePlace(0, "pickup")}
                       >
                         <Input
-                          value={via}
-                          onChange={(e) => {
-                            const tmp = [...viaFields];
-                            tmp[i] = e.target.value;
-                            setViaFields(tmp);
-                          }}
-                          placeholder="Enter stopover location"
-                          className="h-12 rounded-none flex-grow"
+                          value={pickupLocation}
+                          onChange={(e) => setPickupLocation(e.target.value)}
+                          placeholder="Enter pickup location"
+                          className="h-12 rounded-none"
+                          required
                         />
                       </Autocomplete>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        className="cursor-pointer"
-                        onClick={() => removeVia(i)}
+                    </div>
+
+                    {/* Via Fields */}
+                    {viaFields.map((via, i) => (
+                      <div key={i} className="space-y-2">
+                        <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
+                          Via
+                        </Label>
+                        <div className="flex items-center space-x-2">
+                          <Autocomplete
+                            onLoad={(ac) =>
+                              (autocompleteRefs.current[i + 1] = ac)
+                            }
+                            onPlaceChanged={() => handlePlace(i + 1, "via")}
+                          >
+                            <Input
+                              value={via}
+                              onChange={(e) => {
+                                const tmp = [...viaFields];
+                                tmp[i] = e.target.value;
+                                setViaFields(tmp);
+                              }}
+                              placeholder="Enter stopover location"
+                              className="h-12 rounded-none flex-grow"
+                            />
+                          </Autocomplete>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            type="button"
+                            onClick={() => removeVia(i)}
+                            className="text-neutral-400 hover:text-neutral-900"
+                          >
+                            ✕
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+
+                    <Button
+                      type="button"
+                      onClick={addVia}
+                      className="flex items-center space-x-2 text-neutral-700 hover:text-white bg-transparent"
+                    >
+                      <Plus className="h-5 w-5" />
+                      <span>Add Via</span>
+                    </Button>
+
+                    {/* Dropoff */}
+                    <div className="space-y-2">
+                      <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
+                        To
+                      </Label>
+                      <Autocomplete
+                        onLoad={(ac) =>
+                          (autocompleteRefs.current[viaFields.length + 1] = ac)
+                        }
+                        onPlaceChanged={() =>
+                          handlePlace(viaFields.length + 1, "dropoff")
+                        }
                       >
-                        <X />
+                        <Input
+                          value={dropoffLocation}
+                          onChange={(e) => setDropoffLocation(e.target.value)}
+                          placeholder="Enter dropoff location"
+                          className="h-12 rounded-none"
+                          required
+                        />
+                      </Autocomplete>
+                    </div>
+
+                    {/* Passengers + Luggage */}
+                    <div className="grid grid-cols-2 gap-6">
+                      {[
+                        {
+                          label: "Passengers",
+                          count: passengerCount,
+                          setter: setPassengerCount,
+                          min: 1,
+                        },
+                        {
+                          label: "Luggage",
+                          count: luggageCount,
+                          setter: setLuggageCount,
+                          min: 0,
+                        },
+                      ].map(({ label, count, setter, min }, i) => (
+                        <div key={i} className="space-y-2">
+                          <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
+                            {label}
+                          </Label>
+                          <div className="flex items-center border border-neutral-300 px-2 py-1 rounded-none">
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              onClick={() =>
+                                setter((v) => Math.max(min, v - 1))
+                              }
+                            >
+                              <Minus />
+                            </Button>
+                            <span className="flex-grow text-center text-neutral-900">
+                              {count}
+                            </span>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => setter((v) => v + 1)}
+                            >
+                              <Plus />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Time Tabs */}
+                    <Tabs defaultValue="on-way">
+                      <TabsList className="flex space-x-4 mb-6">
+                        <TabsTrigger value="on-way">One Way</TabsTrigger>
+                        <TabsTrigger value="return">Return</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="on-way">
+                        <div className="space-y-2">
+                          <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
+                            One Way
+                          </Label>
+                          <Input
+                            type="datetime-local"
+                            className="h-12 rounded-none"
+                          />
+                        </div>
+                      </TabsContent>
+                      <TabsContent value="return">
+                        <div className="space-y-3">
+                          <Input
+                            type="datetime-local"
+                            className="h-12 rounded-none"
+                          />
+                          <Input
+                            type="datetime-local"
+                            className="h-12 rounded-none"
+                          />
+                        </div>
+                      </TabsContent>
+                    </Tabs>
+
+                    {/* Submit */}
+                    <Link href="/car-selection">
+                      <Button className="w-full bg-neutral-900 hover:bg-neutral-800 cursor-pointer text-white py-4 font-light rounded-none transition-all duration-300">
+                        Calculate Price
+                        <ArrowRight className="ml-2 h-5 w-5" />
                       </Button>
+                    </Link>
+                  </form>
+                </TabsContent>
+
+                {/* HOURLY RATE FORM */}
+                <TabsContent value="hourly-rate">
+                  <form className="space-y-6">
+                    {/* Pickup Location */}
+                    <div className="space-y-2">
+                      <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
+                        From
+                      </Label>
+                      <Autocomplete
+                        onLoad={(ac) => (autocompleteRefs.current[0] = ac)}
+                        onPlaceChanged={() => handlePlace(0, "pickup")}
+                      >
+                        <Input
+                          value={pickupLocation}
+                          onChange={(e) => setPickupLocation(e.target.value)}
+                          placeholder="Enter pickup location"
+                          className="h-12 rounded-none"
+                          required
+                        />
+                      </Autocomplete>
                     </div>
-                  </div>
-                ))}
 
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="flex items-center space-x-2 cursor-pointer"
-                  onClick={addVia}
-                >
-                  <Plus />
-                  <span>Add Via</span>
-                </Button>
-
-                <div className="space-y-2">
-                  <Label>Dropoff Location</Label>
-                  <Autocomplete
-                    onLoad={(ac) =>
-                      (autocompleteRefs.current[viaFields.length + 1] = ac)
-                    }
-                    onPlaceChanged={() =>
-                      handlePlace(viaFields.length + 1, "dropoff")
-                    }
-                  >
-                    <Input
-                      value={dropoffLocation}
-                      onChange={(e) => setDropoffLocation(e.target.value)}
-                      placeholder="Enter dropoff location"
-                      className="h-12 rounded-none"
-                      required
-                    />
-                  </Autocomplete>
-                </div>
-
-                <div className="grid grid-cols-2 gap-6">
-                  {[
-                    {
-                      label: "Passengers",
-                      count: passengerCount,
-                      setter: setPassengerCount,
-                      min: 1,
-                      icon: Users,
-                    },
-                    {
-                      label: "Luggage",
-                      count: luggageCount,
-                      setter: setLuggageCount,
-                      min: 0,
-                      icon: Luggage,
-                    },
-                  ].map(({ label, count, setter, min, icon: Icon }, i) => (
-                    <div key={i} className="space-y-2">
-                      <div className="flex gap-2 ps-1 items-center">
-                        <Icon size={17} />
-                        <Label>{label}</Label>
-                      </div>
-                      <div className="flex items-center border border-neutral-300 px-2 py-1 rounded-none">
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setter((v) => Math.max(min, v - 1))}
-                        >
-                          <Minus />
-                        </Button>
-                        <span className="flex-grow text-center text-neutral-900">
-                          {count}
-                        </span>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setter((v) => v + 1)}
-                        >
-                          <Plus />
-                        </Button>
-                      </div>
+                    {/* Date & Time */}
+                    <div className="space-y-2">
+                      <Label className="text-sm font-light text-neutral-700 uppercase tracking-wider">
+                        Date & Time
+                      </Label>
+                      <Input
+                        type="datetime-local"
+                        className="h-12 rounded-none"
+                        required
+                      />
                     </div>
-                  ))}
-                </div>
 
-                <div className="flex justify-end">
-                  <Button
-                    type="button"
-                    onClick={() => goToStep(2)}
-                    className="flex items-center bg-neutral-900 hover:bg-neutral-800 transition-all duration-300 cursor-pointer text-white py-4 rounded-none w-full lg:w-auto"
-                  >
-                    Continue
-                    <ArrowRight className="h-5 w-5" />
-                  </Button>
-                </div>
-              </form>
+                    <Link href="/car-selection">
+                      <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white py-4 font-light rounded-none transition-all duration-300">
+                        Calculate Price
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Button>
+                    </Link>
+                  </form>
+                </TabsContent>
+              </Tabs>
             </div>
 
             <div className="lg:w-1/2 h-96 flex items-center lg:min-h-[500px] rounded-md">

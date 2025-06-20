@@ -146,7 +146,7 @@ export function Navigation({ animate = true }: NavigationProps) {
                       </div>
                       <div>
                         <h2 className="text-xl font-light tracking-[0.2em] text-neutral-900">
-                          ELITE
+                          TEXAS LIMO
                         </h2>
                         <p className="text-xs font-light text-neutral-500 tracking-widest uppercase">
                           Luxury Transport
