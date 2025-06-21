@@ -45,7 +45,7 @@ const navItems = [
       },
       {
         name: "Corporate Transportation Services",
-        navigate: "/corporate-tranportation-services",
+        navigate: "/corporate-transportation-services",
       },
       {
         name: "Event Transportation Services",
