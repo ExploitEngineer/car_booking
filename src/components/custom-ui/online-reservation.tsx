@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRef, useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 import {
   useJsApiLoader,
   GoogleMap,
@@ -36,49 +37,49 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 const Cars = [
   {
     name: "Luxury Sedan",
-    img: "/assets/images/car1.png",
+    img: "/assets/images/m-car1.png",
     passengers: 3,
     luggage: 3,
   },
   {
-    name: "Mercedes Benz S500",
-    img: "/assets/images/car1.png",
+    name: "Mercedes Benz CEO/JET...",
+    img: "/assets/images/m-car2.png",
     passengers: 8,
     luggage: 12,
   },
   {
-    name: "Chevrolet Suburban",
-    img: "/assets/images/car1.png",
+    name: "Cadillac Escalade ESV",
+    img: "/assets/images/m-car3.png",
     passengers: 7,
     luggage: 8,
   },
   {
-    name: "Luxury SUV",
-    img: "/assets/images/car1.png",
+    name: "Chevrolet Suburban",
+    img: "/assets/images/m-car4.png",
     passengers: 6,
     luggage: 8,
   },
   {
-    name: "Cadillac Escalade ESV",
-    img: "/assets/images/car1.png",
+    name: "Luxury SUV",
+    img: "/assets/images/m-car5.png",
     passengers: 6,
     luggage: 8,
   },
   {
     name: "Mercedes Benz S Class",
-    img: "/assets/images/car1.png",
+    img: "/assets/images/m-car6.png",
     passengers: 3,
     luggage: 3,
   },
   {
-    name: "Mercedes Benz Limo",
-    img: "/assets/images/car1.png",
+    name: "Mercedes Benz Limo Spri...",
+    img: "/assets/images/m-car7.png",
     passengers: 13,
     luggage: 10,
   },
   {
-    name: "Mercedes Benz CEO/JET",
-    img: "/assets/images/car1.png",
+    name: "Mercedes Benz E Class",
+    img: "/assets/images/m-car8.png",
     passengers: 8,
     luggage: 12,
   },
@@ -522,10 +523,15 @@ function OnlineReservation() {
                   className="border border-neutral-200 rounded-md hover:shadow-md transition-all duration-300 cursor-pointer p-4 flex flex-col items-center"
                 >
                   <h3 className="text-lg font-medium mb-2">{car.name}</h3>
-                  <div
-                    className="w-full h-40 bg-gray-100 bg-center bg-cover mb-4"
-                    style={{ backgroundImage: `url(${car.img})` }}
-                  />
+                  <div className="w-full flex items-center justify-center h-40 bg-gray-100 mb-4 overflow-hidden">
+                    <Image
+                      objectFit="cover"
+                      src={car.img}
+                      width={200}
+                      height={200}
+                      alt="car Image"
+                    />
+                  </div>
                   <div className="self-start ps-2">
                     <p className="flex items-center gap-2 text-sm">
                       <Users size={17} color="gray" />

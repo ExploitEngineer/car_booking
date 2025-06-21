@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -16,25 +16,81 @@ import {
 
 const navItems = [
   { name: "Home", navigate: "#home" },
-  { name: "Fleet", navigate: "#fleet" },
-  { name: "Services", navigate: "#services" },
-  { name: "About", navigate: "#about" },
+  {
+    name: "Fleet",
+    navigate: "#fleet",
+    children: [
+      {
+        name: "Cadillac Escalade Houston",
+        navigate: "/rent-a-cadillac-houston",
+      },
+      { name: "Mercedes Benz S Class", navigate: "/mercedes-benz-s-class-3" },
+      {
+        name: "Mercedes Benz CEO/JET Sprinter",
+        navigate: "/mercedes-benz-ceo-jet-spriner-2",
+      },
+      {
+        name: "Chevrolet Suburban in Houston",
+        navigate: "/chevrolet-suburban-in-houston",
+      },
+    ],
+  },
+  {
+    name: "Services",
+    navigate: "#services",
+    children: [
+      {
+        name: "Airport Transportation Services",
+        navigate: "/airport-transportation-services",
+      },
+      {
+        name: "Corporate Transportation Services",
+        navigate: "/corporate-tranportation-services",
+      },
+      {
+        name: "Event Transportation Services",
+        navigate: "/event-transportation-services",
+      },
+      {
+        name: "Wedding Transportation Services",
+        navigate: "/wedding-transportation-services",
+      },
+      {
+        name: "Curise Transportation Services",
+        navigate: "/cruise-transportation-services",
+      },
+      { name: "Car Chauffeur Services", navigate: "/car-chauffeur-services" },
+      {
+        name: "Hourly Drop Off Transportation Services",
+        navigate: "/hourly-drop-off-transportation-services",
+      },
+      {
+        name: "Limousine Tranportation Services",
+        navigate: "/limousine-transportation-services",
+      },
+      {
+        name: "Private FBO Transportation Services",
+        navigate: "/private-fbo-transportation-services",
+      },
+      {
+        name: "Private Jet Transportation Services",
+        navigate: "/private-jet-transportation-services",
+      },
+    ],
+  },
+  { name: "About", navigate: "/about-us" },
   { name: "Contact", navigate: "#contact" },
 ];
 
-type NavigationProps = {
-  animate?: boolean;
-};
-
-export function Navigation({ animate = true }: NavigationProps) {
+export function Navigation({ animate = true }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [openDesktop, setOpenDesktop] = useState<string | null>(null);
+  const [openMobile, setOpenMobile] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -42,7 +98,6 @@ export function Navigation({ animate = true }: NavigationProps) {
   useGSAP(
     () => {
       if (!animate) return;
-
       gsap.fromTo(
         ".nav-item",
         { y: -30, opacity: 0 },
@@ -55,8 +110,6 @@ export function Navigation({ animate = true }: NavigationProps) {
           ease: "power3.out",
         }
       );
-
-      // Logo animation
       gsap.fromTo(
         ".logo-icon",
         { scale: 0, rotation: -180 },
@@ -83,9 +136,9 @@ export function Navigation({ animate = true }: NavigationProps) {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Enhanced Logo */}
-          <Link href="/">
-            <div className="nav-item flex items-end space-x-2">
+          {/* Logo */}
+          <Link href="/#home">
+            <div className="logo-icon nav-item flex items-end space-x-2">
               <Image
                 src="/assets/images/logo.png"
                 width={80}
@@ -103,33 +156,63 @@ export function Navigation({ animate = true }: NavigationProps) {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-12">
-            {navItems.map((item, index) => (
-              <Link key={index} href={item.navigate}>
+          {/* Desktop Nav */}
+          <div className="hidden lg:flex items-center space-x-9">
+            {navItems.map((item, index) => {
+              const hasChildren = !!item.children;
+              return (
                 <div
-                  className="nav-item text-sm cursor-pointer font-light text-neutral-700 hover:text-neutral-900 transition-all duration-300 relative group tracking-wide py-2"
-                  style={{ animationDelay: `${3.9 + index * 0.1}s` }}
+                  key={index}
+                  className="relative nav-item"
+                  onMouseEnter={() => hasChildren && setOpenDesktop(item.name)}
+                  onMouseLeave={() => hasChildren && setOpenDesktop(null)}
                 >
-                  {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-neutral-900 transition-all duration-500 group-hover:w-full"></span>
+                  <Link href={item.navigate}>
+                    <div
+                      className="text-sm cursor-pointer font-light text-neutral-700 hover:text-neutral-900 transition-all duration-300 tracking-wide py-2 relative group"
+                      style={{ animationDelay: `${3.9 + index * 0.1}s` }}
+                    >
+                      {item.name}
+                      {hasChildren && (
+                        <ChevronDown className="inline-block ml-1 h-4 w-4" />
+                      )}
+                    </div>
+                  </Link>
+
+                  {/* Desktop Dropdown */}
+                  {hasChildren && openDesktop === item.name && (
+                    <div className="absolute top-7 w-58 mt-2 bg-white shadow-md rounded-md z-50">
+                      {item.children!.map((c, i) => (
+                        <Link key={i} href={c.navigate}>
+                          <div className="px-4 py-2 pt-4 text-neutral-700 text-sm hover:bg-gray-100 cursor-pointer">
+                            {c.name}
+                          </div>
+                          <hr />
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              </Link>
-            ))}
+              );
+            })}
           </div>
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center space-x-6 nav-item">
             <a
-              href="tel:+15551234567"
+              href="tel:+14094431748"
               className="flex items-center space-x-2 text-neutral-700 hover:text-neutral-900 transition-colors duration-300"
             >
               <Phone className="h-4 w-4" />
               <span className="text-sm font-light">+1 (409) 443-1748</span>
             </a>
             <div className="w-px h-6 bg-neutral-300"></div>
-            <a href="https://web.whatsapp.com" target="_blank">
-              <Button className="bg-neutral-900 hover:bg-neutral-800 cursor-pointer text-white text-sm font-light px-8 py-3 h-auto rounded-none border-0 transition-all duration-300 tracking-wide">
+            <a
+              href="https://web.whatsapp.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button className="bg-neutral-900 hover:bg-neutral-800 text-white text-sm font-light px-8 py-3 tracking-wide">
                 Reserve Now
               </Button>
             </a>
@@ -139,63 +222,78 @@ export function Navigation({ animate = true }: NavigationProps) {
           <div className="lg:hidden">
             <Drawer open={isOpen} onOpenChange={setIsOpen}>
               <DrawerTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="nav-item text-neutral-900 cursor-pointer hover:bg-neutral-100 rounded-none"
-                >
+                <Button variant="ghost" size="icon" className="nav-item">
                   <Menu className="h-5 w-5" />
                 </Button>
               </DrawerTrigger>
               <DrawerContent className="bg-white border-neutral-200 rounded-none">
-                <div className="p-8">
-                  <div className="flex justify-between items-center mb-12">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-neutral-900 flex items-center justify-center">
-                        <div className="w-4 h-4 border-2 border-white transform rotate-45"></div>
+                <div className="p-8 space-y-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <Link href="/#home" onClick={() => setIsOpen(false)}>
+                      <div className="text-xl font-light tracking-[0.2em]">
+                        TEXAS LIMO
                       </div>
-                      <div>
-                        <h2 className="text-xl font-light tracking-[0.2em] text-neutral-900">
-                          TEXAS LIMO
-                        </h2>
-                        <p className="text-xs font-light text-neutral-500 tracking-widest uppercase">
-                          Luxury Transport
-                        </p>
-                      </div>
-                    </div>
+                    </Link>
                     <DrawerClose asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-neutral-900 cursor-pointer rounded-none"
-                      >
+                      <Button variant="ghost" size="icon">
                         <X className="h-5 w-5" />
                       </Button>
                     </DrawerClose>
                   </div>
-                  <div className="space-y-8">
-                    {navItems.map((item, _i) => (
-                      <Link key={_i} href={item.navigate}>
+
+                  {navItems.map((item, idx) => {
+                    const hasChildren = !!item.children;
+                    return (
+                      <div key={idx}>
                         <div
-                          className="block text-neutral-700 hover:text-neutral-900 transition-colors duration-300 py-3 text-lg font-light tracking-wide border-b border-neutral-100 last:border-b-0"
-                          onClick={() => setIsOpen(false)}
+                          className="flex justify-between items-center py-3 text-lg font-light text-neutral-700 border-b border-neutral-100 cursor-pointer"
+                          onClick={() =>
+                            hasChildren
+                              ? setOpenMobile(
+                                  openMobile === item.name ? null : item.name
+                                )
+                              : setIsOpen(false)
+                          }
                         >
-                          {item.name}
+                          <span>{item.name}</span>
+                          {hasChildren && (
+                            <ChevronDown
+                              className={`h-5 w-5 transition-transform ${
+                                openMobile === item.name ? "rotate-180" : ""
+                              }`}
+                            />
+                          )}
                         </div>
-                      </Link>
-                    ))}
-                    <div className="pt-6 space-y-4">
-                      <a
-                        href="tel:+15551234567"
-                        className="flex items-center space-x-3 text-neutral-700 hover:text-neutral-900 transition-colors duration-300"
-                      >
-                        <Phone className="h-5 w-5" />
-                        <span className="font-light">+1 (555) 123-4567</span>
-                      </a>
-                      <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-light rounded-none py-4 cursor-pointer">
-                        Reserve Now
-                      </Button>
-                    </div>
+                        {hasChildren && openMobile === item.name && (
+                          <div className="pl-4 space-y-2">
+                            {item.children!.map((c, i) => (
+                              <Link
+                                key={i}
+                                href={c.navigate}
+                                onClick={() => setIsOpen(false)}
+                              >
+                                <div className="py-2 text-neutral-600 hover:text-neutral-800">
+                                  {c.name}
+                                </div>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+
+                  <div className="pt-6 space-y-4">
+                    <a
+                      href="tel:+14094431748"
+                      className="flex items-center space-x-3 text-neutral-700 hover:text-neutral-900 transition-colors duration-300"
+                    >
+                      <Phone className="h-5 w-5" />
+                      <span className="font-light">+1 (409) 443-1748</span>
+                    </a>
+                    <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-light py-4">
+                      Reserve Now
+                    </Button>
                   </div>
                 </div>
               </DrawerContent>

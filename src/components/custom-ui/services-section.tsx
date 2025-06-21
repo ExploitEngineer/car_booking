@@ -14,34 +14,34 @@ const services = [
     title: "Executive Chauffeur",
     description:
       "Professional drivers with extensive training in luxury service protocols and discretion.",
-    image: "/assets/images/blackcar.jpg",
+    image: "/assets/images/services-car1.jpg",
   },
   {
     number: "02",
     title: "Airport Transfers",
     description:
       "Seamless transportation with flight monitoring and personalized meet & greet service.",
-    image: "/assets/images/mercedes.jpg",
+    image: "/assets/images/services-car2.png",
   },
   {
     number: "03",
     title: "Corporate Events",
     description:
       "Tailored transportation solutions for business meetings and executive travel needs.",
-    image: "/assets/images/mercedes1.avif",
+    image: "/assets/images/services-car3.webp",
   },
   {
     number: "04",
     title: "Special Occasions",
     description:
       "Bespoke luxury experiences for weddings, galas, and milestone celebrations.",
-    image: "/assets/images/bmw.webp",
+    image: "/assets/images/services-car4.jpg",
   },
   {
     number: "05",
     title: "Wedding Services",
     description: "Celebrate your special day with our bespoke luxury transportation services tailored for weddings.",
-    image: "/assets/images/img1.jpeg"
+    image: "/assets/images/services-car5.jpeg"
   }
 ];
 
