@@ -39,56 +39,48 @@ const Cars = [
     img: "/assets/images/car1.png",
     passengers: 3,
     luggage: 3,
-    price: 591.19,
   },
   {
     name: "Mercedes Benz S500",
     img: "/assets/images/car1.png",
     passengers: 8,
     luggage: 12,
-    price: 618.87,
   },
   {
     name: "Chevrolet Suburban",
     img: "/assets/images/car1.png",
     passengers: 7,
     luggage: 8,
-    price: 818.47,
   },
   {
     name: "Luxury SUV",
     img: "/assets/images/car1.png",
     passengers: 6,
     luggage: 8,
-    price: 926.35,
   },
   {
     name: "Cadillac Escalade ESV",
     img: "/assets/images/car1.png",
     passengers: 6,
     luggage: 8,
-    price: 972.35,
   },
   {
     name: "Mercedes Benz S Class",
     img: "/assets/images/car1.png",
     passengers: 3,
     luggage: 3,
-    price: 1193.87,
   },
   {
     name: "Mercedes Benz Limo",
     img: "/assets/images/car1.png",
     passengers: 13,
     luggage: 10,
-    price: 822.9,
   },
   {
     name: "Mercedes Benz CEO/JET",
     img: "/assets/images/car1.png",
     passengers: 8,
     luggage: 12,
-    price: 618.87,
   },
 ];
 
@@ -542,9 +534,6 @@ function OnlineReservation() {
                     <p className="flex items-center gap-2 text-sm">
                       <Luggage size={17} color="gray" />
                       {car.luggage} Luggage
-                    </p>
-                    <p className="text-sm mt-2">
-                      Price: ${(car.price * (1 - discount / 100)).toFixed(2)}
                     </p>
                   </div>
                   <a
