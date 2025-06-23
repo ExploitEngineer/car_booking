@@ -98,7 +98,7 @@ function OnlineReservation() {
   const [passengerCount, setPassengerCount] = useState(1);
   const [luggageCount, setLuggageCount] = useState(0);
   const [promoCode, setPromoCode] = useState("");
-  const [discount, setDiscount] = useState(0);
+  const [_, setDiscount] = useState(0);
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [directions, setDirections] =

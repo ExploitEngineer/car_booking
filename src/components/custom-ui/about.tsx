@@ -39,7 +39,7 @@ export function AboutUs() {
         style={{ backgroundImage: "url('/assets/images/fleet-16.jpg')" }}
       >
         <div className="absolute inset-0 bg-neutral-900 opacity-40" />
-        <h1 className="relative text-4xl md:text-7xl font-extralight text-white uppercase tracking-tight text-center leading-none">
+        <h1 className="relative text-5xl lg:text-7xl font-extralight text-white uppercase tracking-tight text-center leading-none">
           About Pro Ride Limo <br /> Houston
         </h1>
       </section>

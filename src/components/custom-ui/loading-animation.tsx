@@ -2,7 +2,7 @@
 
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 export function LoadingAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -10,9 +10,23 @@ export function LoadingAnimation() {
   const progressRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const [isComplete, setIsComplete] = useState(false);
+  const [hasLoadedBefore, setHasLoadedBefore] = useState(false);
+
+  useEffect(() => {
+    // Check if the animation has already been shown
+    const hasLoaded = localStorage.getItem("hasLoadedBefore");
+    if (hasLoaded) {
+      setHasLoadedBefore(true);
+      setIsComplete(true);
+    } else {
+      localStorage.setItem("hasLoadedBefore", true);
+    }
+  }, []);
 
   useGSAP(
     () => {
+      if (hasLoadedBefore) return; // Skip animation if already loaded
+
       const tl = gsap.timeline({
         onComplete: () => {
           setTimeout(() => setIsComplete(true), 500);
