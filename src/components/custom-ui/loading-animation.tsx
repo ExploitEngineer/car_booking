@@ -19,7 +19,7 @@ export function LoadingAnimation() {
       setHasLoadedBefore(true);
       setIsComplete(true);
     } else {
-      localStorage.setItem("hasLoadedBefore", true);
+      localStorage.setItem("hasLoadedBefore", "true");
     }
   }, []);
 
