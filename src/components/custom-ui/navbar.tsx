@@ -212,7 +212,7 @@ export function Navigation({ animate = true }) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button className="bg-neutral-900 hover:bg-neutral-800 text-white text-sm font-light px-8 py-3 tracking-wide">
+              <Button className="bg-neutral-900 hover:bg-neutral-800 text-white text-sm cursor-pointer font-light px-8 py-3 tracking-wide">
                 Reserve Now
               </Button>
             </a>
@@ -291,7 +291,7 @@ export function Navigation({ animate = true }) {
                       <Phone className="h-5 w-5" />
                       <span className="font-light">+1 (409) 443-1748</span>
                     </a>
-                    <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-light py-4">
+                    <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white cursor-pointer font-light py-4">
                       Reserve Now
                     </Button>
                   </div>

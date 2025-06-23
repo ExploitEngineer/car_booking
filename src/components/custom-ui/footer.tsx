@@ -3,6 +3,7 @@
 import gsap from "gsap";
 import Image from "next/image";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import Link from "next/link";
 import { useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 
@@ -156,13 +157,13 @@ export function Footer() {
               <ul className="space-y-4">
                 {quickLinks.map((link, index) => (
                   <li key={index}>
-                    <a
+                    <Link
                       href={link.href}
                       className="text-neutral-400 hover:text-white transition-colors duration-300 font-light group flex items-center"
                     >
                       {link.name}
                       <ArrowUpRight className="h-3 w-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
