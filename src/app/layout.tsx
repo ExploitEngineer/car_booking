@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, DM_Sans } from "next/font/google";
+import { LoadingAnimation } from "@/components/custom-ui/loading-animation";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -28,6 +29,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${DmSans.className} ${geistMono.variable} antialiased`}
       >
+        <LoadingAnimation />
         {children}
       </body>
     </html>

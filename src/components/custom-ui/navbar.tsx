@@ -137,7 +137,7 @@ export function Navigation({ animate = true }) {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link href="/home">
+          <Link href="/">
             <div className="logo-icon nav-item flex items-end space-x-2">
               <Image
                 src="/assets/images/logo.png"
@@ -226,10 +226,10 @@ export function Navigation({ animate = true }) {
                   <Menu className="h-5 w-5" />
                 </Button>
               </DrawerTrigger>
-              <DrawerContent className="bg-white border-neutral-200 rounded-none">
-                <div className="p-8 space-y-6">
+              <DrawerContent className="border-neutral-200 rounded-none p-0">
+                <div className="max-h-screen overflow-y-auto w-full p-8 space-y-6">
                   <div className="flex justify-between items-center mb-6">
-                    <Link href="/home" onClick={() => setIsOpen(false)}>
+                    <Link href="/" onClick={() => setIsOpen(false)}>
                       <div className="text-xl font-light tracking-[0.2em]">
                         TEXAS LIMO
                       </div>
