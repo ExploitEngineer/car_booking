@@ -153,7 +153,7 @@ export function WeddingTransportationServices() {
           </div>
           <div className="flex-1 space-y-4">
             <h2 className="text-2xl md:text-4xl font-semibold mb-4">
-              From "I Do" to the Dance Floor:
+              From &quot;I Do&quot; to the Dance Floor:
             </h2>
             {paras1.map(
               (para: { title: string; content: string }, _i: number) => (

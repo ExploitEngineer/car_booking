@@ -98,7 +98,7 @@ function OnlineReservation() {
   const [passengerCount, setPassengerCount] = useState(1);
   const [luggageCount, setLuggageCount] = useState(0);
   const [promoCode, setPromoCode] = useState("");
-  const [_, setDiscount] = useState(0);
+  const [discount, setDiscount] = useState(0);
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [directions, setDirections] =
@@ -579,6 +579,11 @@ function OnlineReservation() {
                   Apply
                 </Button>
               </div>
+              {discount > 0 && (
+                <p className="mt-4 text-green-600 text-sm">
+                  Discount Applied: {discount}% off!
+                </p>
+              )}
             </div>
           </div>
         )}
