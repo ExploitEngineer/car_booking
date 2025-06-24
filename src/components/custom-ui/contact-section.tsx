@@ -1,7 +1,7 @@
 "use client";
 
 import gsap from "gsap";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { Phone, Mail, MapPin, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,41 @@ import { Textarea } from "@/components/ui/textarea";
 gsap.registerPlugin(ScrollTrigger);
 
 export function ContactSection() {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        alert("Your message has been sent!");
+      } else {
+        alert("Failed to send your message. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       // Contact form animation
@@ -123,31 +158,37 @@ export function ContactSection() {
               </p>
             </div>
 
-            <form className="space-y-8">
+            <form className="space-y-8" onSubmit={handleSubmit}>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label
-                    htmlFor="first-name"
+                    htmlFor="firstName"
                     className="text-sm font-light text-neutral-700 uppercase tracking-wider"
                   >
                     First Name
                   </Label>
                   <Input
-                    id="first-name"
+                    id="firstName"
                     placeholder="Enter first name"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    required
                     className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
                   />
                 </div>
                 <div className="space-y-2">
                   <Label
-                    htmlFor="last-name"
+                    htmlFor="lastName"
                     className="text-sm font-light text-neutral-700 uppercase tracking-wider"
                   >
                     Last Name
                   </Label>
                   <Input
-                    id="last-name"
+                    id="lastName"
                     placeholder="Enter last name"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    required
                     className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
                   />
                 </div>
@@ -164,6 +205,9 @@ export function ContactSection() {
                   id="email"
                   type="email"
                   placeholder="your@email.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
                   className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
                 />
               </div>
@@ -179,6 +223,9 @@ export function ContactSection() {
                   id="phone"
                   type="tel"
                   placeholder="+1 (555) 000-0000"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
                   className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none h-12 font-light"
                 />
               </div>
@@ -194,11 +241,17 @@ export function ContactSection() {
                   id="message"
                   placeholder="Tell us about your requirements..."
                   rows={6}
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
                   className="bg-white border-neutral-300 hover:border-neutral-400 text-neutral-900 rounded-none font-light resize-none"
                 />
               </div>
 
-              <Button className="bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-4 text-base font-light rounded-none border-0 transition-all duration-300 cursor-pointer group">
+              <Button
+                type="submit"
+                className="bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-4 text-base font-light rounded-none border-0 transition-all duration-300 cursor-pointer group"
+              >
                 Send Message
                 <ArrowRight className="ml-3 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
