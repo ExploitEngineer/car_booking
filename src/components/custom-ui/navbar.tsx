@@ -108,7 +108,7 @@ export function Navigation({ animate = true }) {
           stagger: 0.1,
           delay: 3.8,
           ease: "power3.out",
-        }
+        },
       );
       gsap.fromTo(
         ".logo-icon",
@@ -119,10 +119,10 @@ export function Navigation({ animate = true }) {
           duration: 1,
           delay: 3.8,
           ease: "back.out(1.7)",
-        }
+        },
       );
     },
-    { scope: navRef }
+    { scope: navRef },
   );
 
   return (
@@ -208,7 +208,7 @@ export function Navigation({ animate = true }) {
             </a>
             <div className="w-px h-6 bg-neutral-300"></div>
             <a
-              href="https://web.whatsapp.com"
+              href="https://wa.me/+14094431748"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -250,7 +250,7 @@ export function Navigation({ animate = true }) {
                           onClick={() =>
                             hasChildren
                               ? setOpenMobile(
-                                  openMobile === item.name ? null : item.name
+                                  openMobile === item.name ? null : item.name,
                                 )
                               : setIsOpen(false)
                           }
@@ -291,9 +291,11 @@ export function Navigation({ animate = true }) {
                       <Phone className="h-5 w-5" />
                       <span className="font-light">+1 (409) 443-1748</span>
                     </a>
-                    <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white cursor-pointer font-light py-4">
-                      Reserve Now
-                    </Button>
+                    <a target="_blank" href="https://wa.me/+14094431748">
+                      <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white cursor-pointer font-light py-4">
+                        Reserve Now
+                      </Button>
+                    </a>
                   </div>
                 </div>
               </DrawerContent>

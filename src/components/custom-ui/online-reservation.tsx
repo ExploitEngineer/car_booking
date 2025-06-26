@@ -130,7 +130,7 @@ function OnlineReservation() {
       else if (type === "dropoff") setDropoffLocation(addr);
       else
         setViaFields((prev) =>
-          prev.map((v, idx) => (idx === i - 1 ? addr : v))
+          prev.map((v, idx) => (idx === i - 1 ? addr : v)),
         );
       map?.panTo(loc);
       if (pickupLocation && dropoffLocation) calculateRoute();
@@ -543,12 +543,12 @@ function OnlineReservation() {
                     </p>
                   </div>
                   <a
-                    href="https://web.whatsapp.com"
+                    href="https://wa.me/+14094431748"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="Book now"
                     className="w-full mt-4"
                   >
-                    <Button className="w-full bg-neutral-900 hover:bg-neutral-800 text-white py-2 rounded-none">
+                    <Button className="w-full cursor-pointer bg-neutral-900 hover:bg-neutral-800 text-white py-2 rounded-none">
                       Book Now
                     </Button>
                   </a>
