@@ -2,27 +2,28 @@
 
 import { Navigation } from "@/components/custom-ui/navbar";
 import { Footer } from "@/components/custom-ui/footer";
+import type { Paras } from "@/lib/services-interface";
 import Image from "next/image";
 
-const paras = [
+const paras: string[] = [
   "Cadillac escalade ESV car Houston from Pro Ride Luxury Limousine & Executive Chauffeur Service! If you are looking for reliable and cost-effective Luxury Escalade car in Houston, rely on us to get the best solutions!",
   "Cadillac escalade in Houston helps you enjoy a luxurious and comfortable ride for your special event or airport transportation.",
   "We help you enjoy a stylish ride with our professional Cadillac Escalade transfer in Houston.",
   "With us, you can arrive in style and experience the luxurious comfort of the Cadillac Escalade ESV car that suits your budget and requirement.",
 ];
 
-const paras1 = [
+const paras1: string[] = [
   "You can find the best Cadillac car near Houston at Ride Luxury Limousine & Executive Chauffeur Service!",
   "We provide exclusive Cadillac Escalade ESV Rentals in Houston for weddings, executive transfers, or airport transportation. Our luxury Cadillac Escalade ESV for rent is equipped with modern technology, high-end style, and feature that provide ultimate comfort and high performance. Cadillac escalade Houston that ensures luxury, comfort, and safety.",
   "If you want to enjoy smooth navigation in the Cadillac Escalade ESV, rely on us!",
 ];
 
-const paras2 = [
+const paras2: string[] = [
   "A Cadillac Escalade is all about sophistication and luxury. Cadillac escalade in Houston to enjoy a stylish ride to impress everyone. We can help you book a luxury Cadillac for special events, airport transportation, or executive transfer.",
   "You can enjoy the high-tech entertainment features and comfort by booking from us the Cadillac Escalade ESV rental package in Houston.",
 ];
 
-const paras3 = [
+const paras3: Paras[] = [
   {
     title: "Top Performance-",
     content:
@@ -150,10 +151,7 @@ export function RentACadillacHouston() {
               Experience Ultimate Luxury and Style when you Book Cadillac
               Escalade ESV in Houston
             </h2>
-            {paras3.map(function (
-              para: { title: string; content: string },
-              _i: number
-            ) {
+            {paras3.map(function (para: Paras, _i: number) {
               return (
                 <p key={_i} className="text-neutral-600 text-justify text-lg">
                   <span className="text-black">{para.title + " "}</span>

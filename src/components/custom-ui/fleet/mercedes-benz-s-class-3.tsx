@@ -4,18 +4,18 @@ import { Navigation } from "@/components/custom-ui/navbar";
 import { Footer } from "@/components/custom-ui/footer";
 import Image from "next/image";
 
-const paras = [
+const paras: string[] = [
   "Are you looking for a Black Car service or executive transportation in Houston? Mercedes Benz s class Houston from Pro Ride Luxury Limousine & Executive Chauffeur Service! We provide Brand New Mercedes Benz S Class for rent with professional chauffeur services in Houston.",
   "Book Luxury Brand New Mercedes Benz S Class from us to enjoy a celebrity-style commuting experience. Whether a business meeting or an event, you can enjoy stylish transportation with our Mercedes s class Car in Houston.",
 ];
 
-const paras1 = [
+const paras1: string[] = [
   "Our Brand New Mercedes Benz S-CLASS has the most sophisticated automotive safety systems, powerful V-8 engine, and luxurious interior. We provide you with reliable, prompt, and comfortable transportation. Whether it is about airport service, business transportation, or a leisure trip, we can meet your travel requirements.",
   "Our Brand New Mercedes Benz S Class radiates luxury and elegance! Mercedes is one of the top names; its S Class models are the favorite among the executive class.",
   "Do you want to travel in a top-class vehicle? Book our Houston luxury Mercedes Benz rental that reflects your sophisticated style and taste! Book Mercedes s class Houston for enjoying comfort and luxury.",
 ];
 
-const paras2 = [
+const paras2: string[] = [
   "Our Mercedes Benz S Class in Houston ensures the most prominent transportation. You enjoy nothing less than comfort and class with our Mercedes Benz car book service in Houston.",
   "Customer service and support are available 24 hours- 7 days a week.",
   "You can book a luxury Brand New Mercedes Benz S Class at your convenience.",
@@ -101,10 +101,7 @@ export function MercedesBenzSClass3() {
             <h2 className="text-2xl tracking-tight md:text-4xl font-semibold mt-4">
               Why Book Luxury Brand New Mercedes Benz S Class?
             </h2>
-            {paras2.map(function (
-              para: string,
-              _i: number
-            ) {
+            {paras2.map(function (para: string, _i: number) {
               return (
                 <p key={_i} className="text-neutral-600 text-justify text-lg">
                   {para}

@@ -2,27 +2,28 @@
 
 import { Navigation } from "@/components/custom-ui/navbar";
 import { Footer } from "@/components/custom-ui/footer";
+import type { Paras } from "@/lib/services-interface";
 import Image from "next/image";
 
-const paras = [
+const paras: string[] = [
   "Experience the epitome of luxury with the Chevrolet Suburban from Pro Ride Luxury Limousine & Executive Chauffeur Service in Houston! For those seeking reliability and cost-effectiveness in their luxury transportation, look no further than our exquisite SUV solutions. Trust us to deliver the finest experiences on Houston&nbsp;s roads, get the best solutions!",
   "Chevrolet Suburban in Houston helps you enjoy a luxurious and comfortable ride for your special event or airport transportation.",
   "We help you enjoy a stylish ride with our professional Chevrolet Suburban transfer in Houston.",
   "With us, you can arrive in style and experience the luxurious comfort of the Chevrolet Suburban SUV that suits your budget and requirement.",
 ];
 
-const paras1 = [
+const paras1: string[] = [
   "You can find the best Chevrolet Suburban car near Houston at Ride Luxury Limousine & Executive Chauffeur Service!",
   "We provide exclusive Chevrolet Suburban ESV Rentals in Houston for weddings, executive transfers, or airport transportation. Our luxury Chevrolet Suburban ESV for rent is equipped with modern technology, high-end style, and feature that provide ultimate comfort and high performance. Chevrolet Suburban Houston that ensures luxury, comfort, and safety.",
   "If you want to enjoy smooth navigation in the Chevrolet Suburban ESV, rely on us!",
 ];
 
-const paras2 = [
+const paras2: string[] = [
   "A Chevrolet Suburban is all about sophistication and luxury. Chevrolet Suburban in Houston to enjoy a stylish ride to impress everyone. We can help you book a luxury Chevrolet Suburban for special events, airport transportation, or executive transfer.",
   "You can enjoy the high-tech entertainment features and comfort by booking from us the Chevrolet Suburban rental package in Houston.",
 ];
 
-const paras3 = [
+const paras3: Paras[] = [
   {
     title: "Top Performance-",
     content:
@@ -149,10 +150,7 @@ export function ChevroletSuburbanInHouston() {
               Experience Ultimate Luxury and Style when you Book Chevrolet
               Suburban in Houston
             </h2>
-            {paras3.map(function (
-              para: { title: string; content: string },
-              _i: number
-            ) {
+            {paras3.map(function (para: Paras, _i: number) {
               return (
                 <p key={_i} className="text-neutral-600 text-justify text-lg">
                   <span className="text-black">{para.title}</span>

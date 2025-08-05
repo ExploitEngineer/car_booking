@@ -2,10 +2,11 @@
 
 import { Navigation } from "@/components/custom-ui/navbar";
 import { Footer } from "@/components/custom-ui/footer";
+import type { Paras } from "@/lib/services-interface";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-const paras = [
+const paras: Paras[] = [
   {
     title: "Elevate Your Travel Experience:",
     content:
@@ -33,7 +34,7 @@ const paras = [
   },
 ];
 
-const paras1 = [
+const paras1: Paras[] = [
   {
     title: "Private Jet Arrivals:",
     content:
@@ -89,14 +90,19 @@ export function PrivateJetTransportationServices() {
       <section className="px-6 md:px-10 lg:px-70 mb-20">
         <div className="space-y-10">
           <p className="text-neutral-600 text-justify text-lg">
-          Escape the clamor of commercial terminals and embrace the elegance of
+            Escape the clamor of commercial terminals and embrace the elegance
+            of
             <span className="text-black">
-            private jet travel with Pro Ride Limo,
+              private jet travel with Pro Ride Limo,
             </span>
             your trusted partner for seamless ground transportation in Houston.
             <span className="text-black">Glide past the city traffic,</span>
-            bypass lengthy security lines, and arrive at your private jet hangar refreshed and ready to embark on your journey in luxurious comfort.  So, let’s book our
-            <span className="text-black">private jet transportation services</span>
+            bypass lengthy security lines, and arrive at your private jet hangar
+            refreshed and ready to embark on your journey in luxurious comfort.
+            So, let’s book our
+            <span className="text-black">
+              private jet transportation services
+            </span>
             with ease!
           </p>
           <div className="flex items-center justify-center gap-4">
@@ -109,16 +115,13 @@ export function PrivateJetTransportationServices() {
         <div className="w-full flex justify-center flex-wrap gap-14 mt-16">
           <div className="flex-1 space-y-4 mt-3">
             <h2 className="text-2xl md:text-4xl font-semibold mb-4">
-            Why Choose Pro Ride Limo: Private Jet Transportation Services?
+              Why Choose Pro Ride Limo: Private Jet Transportation Services?
             </h2>
-            {paras.map(
-              (para: { title: string; content: string }, _i: number) => (
-                <p key={_i} className="text-neutral-600 text-justify text-lg">
-                  <span className="text-black">{para.title}</span>{" "}
-                  {para.content}
-                </p>
-              )
-            )}
+            {paras.map((para: Paras, _i: number) => (
+              <p key={_i} className="text-neutral-600 text-justify text-lg">
+                <span className="text-black">{para.title}</span> {para.content}
+              </p>
+            ))}
             <div className="flex items-center gap-4 mt-2">
               <Button className="uppercase py-5 px-8 border">Call Us</Button>
               <Button className="uppercase py-5 px-8 border">Book Now</Button>
@@ -148,16 +151,13 @@ export function PrivateJetTransportationServices() {
           </div>
           <div className="flex-1 space-y-4">
             <h2 className="text-2xl md:text-4xl font-semibold mb-4">
-            Your Concierge to the Clouds:
+              Your Concierge to the Clouds:
             </h2>
-            {paras1.map(
-              (para: { title: string; content: string }, _i: number) => (
-                <p key={_i} className="text-neutral-600 text-justify text-lg">
-                  <span className="text-black">{para.title}</span>{" "}
-                  {para.content}
-                </p>
-              )
-            )}
+            {paras1.map((para: Paras, _i: number) => (
+              <p key={_i} className="text-neutral-600 text-justify text-lg">
+                <span className="text-black">{para.title}</span> {para.content}
+              </p>
+            ))}
             <div className="flex items-center gap-4 mt-2">
               <Button className="uppercase py-5 px-8 border">Call Us</Button>
               <Button className="uppercase py-5 px-8 border">Book Now</Button>

@@ -4,14 +4,14 @@ import { Navigation } from "@/components/custom-ui/navbar";
 import { Footer } from "@/components/custom-ui/footer";
 import Image from "next/image";
 
-const paras = [
+const paras: string[] = [
   "Do you want to Mercedes Sprinter Van limo service in Houston? Rely on us to get Brand New Exclusive VIP Mercedes Benz CEO/JET Sprinter! Mercedes Benz sprinter van in Houston to shuttle executives or a group!",
   "Our Brand New Exclusive VIP Mercedes Benz CEO/JET Sprinter is about safety and comfort.",
   "Shuttling a group of executives in Houston! Booking our Mercedes-Benz Sprinter Executive Van is the best.",
   "It has ample space, side step-in heights, a best-in-Class roof, and a wide entry.",
 ];
 
-const paras1 = [
+const paras1: string[] = [
   "Highly trained chauffeurs know the local area, streets, and venues.",
   "Ensure a smooth and comfortable ride to and from your destination.",
   "Brand new vehicle in top class condition having a pleasant interior.",

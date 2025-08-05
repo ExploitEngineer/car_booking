@@ -2,10 +2,11 @@
 
 import { Navigation } from "@/components/custom-ui/navbar";
 import { Footer } from "@/components/custom-ui/footer";
+import type { Paras } from "@/lib/services-interface";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-const paras = [
+const paras: Paras[] = [
   {
     title: "Discreet and Elevated Fleet:",
     content:
@@ -33,7 +34,7 @@ const paras = [
   },
 ];
 
-const paras1 = [
+const paras1: Paras[] = [
   {
     title: "Private Jet Arrivals:",
     content:
@@ -112,14 +113,11 @@ export function PrivateFboTransportationServices() {
             <h2 className="text-2xl md:text-4xl font-semibold mb-4">
               Why Choose Pro Ride Limo: Private FBO Transportation Services?
             </h2>
-            {paras.map(
-              (para: { title: string; content: string }, _i: number) => (
-                <p key={_i} className="text-neutral-600 text-justify text-lg">
-                  <span className="text-black">{para.title}</span>{" "}
-                  {para.content}
-                </p>
-              )
-            )}
+            {paras.map((para: Paras, _i: number) => (
+              <p key={_i} className="text-neutral-600 text-justify text-lg">
+                <span className="text-black">{para.title}</span> {para.content}
+              </p>
+            ))}
             <div className="flex items-center gap-4 mt-2">
               <Button className="uppercase py-5 px-8 border">Call Us</Button>
               <Button className="uppercase py-5 px-8 border">Book Now</Button>
@@ -151,14 +149,11 @@ export function PrivateFboTransportationServices() {
             <h2 className="text-2xl md:text-4xl font-semibold mb-4">
               Your Bridge Between Land and Sky:
             </h2>
-            {paras1.map(
-              (para: { title: string; content: string }, _i: number) => (
-                <p key={_i} className="text-neutral-600 text-justify text-lg">
-                  <span className="text-black">{para.title}</span>{" "}
-                  {para.content}
-                </p>
-              )
-            )}
+            {paras1.map((para: Paras, _i: number) => (
+              <p key={_i} className="text-neutral-600 text-justify text-lg">
+                <span className="text-black">{para.title}</span> {para.content}
+              </p>
+            ))}
             <div className="flex items-center gap-4 mt-2">
               <Button className="uppercase py-5 px-8 border">Call Us</Button>
               <Button className="uppercase py-5 px-8 border">Book Now</Button>
