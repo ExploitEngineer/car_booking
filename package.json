@@ -27,6 +27,7 @@
     "react": "^19.0.0",
     "react-collapse": "^5.1.1",
     "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.5.2",
     "scroll-trigger": "^1.0.0",
     "scrolltrigger": "^1.0.1",
     "tailwind-merge": "^3.3.0",

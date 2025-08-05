@@ -1,13 +1,14 @@
 "use client";
 
 import gsap from "gsap";
+import { toast } from "react-hot-toast";
 import { useEffect, useState } from "react";
-import ScrollTrigger from "gsap/ScrollTrigger";
-import { Phone, Mail, MapPin, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Phone, Mail, MapPin, ArrowRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -37,13 +38,21 @@ export function ContactSection() {
       });
 
       if (response.ok) {
-        alert("Your message has been sent!");
+        toast.success("Your message has been sent!");
+
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
       } else {
-        alert("Failed to send your message. Please try again.");
+        toast.error("Failed to send your message. Please try again.");
       }
     } catch (error) {
       console.error(error);
-      alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     }
   };
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, DM_Sans } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import { LoadingAnimation } from "@/components/custom-ui/loading-animation";
 import "./globals.css";
 
@@ -30,6 +31,7 @@ export default function RootLayout({
         className={`${DmSans.className} ${geistMono.variable} antialiased`}
       >
         <LoadingAnimation />
+        <Toaster position="top-center" reverseOrder={false} />
         {children}
       </body>
     </html>
