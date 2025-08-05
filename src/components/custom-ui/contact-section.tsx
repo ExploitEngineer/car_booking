@@ -22,7 +22,7 @@ export function ContactSection() {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -72,7 +72,7 @@ export function ContactSection() {
             start: "top 80%",
             toggleActions: "play none none reverse",
           },
-        }
+        },
       );
 
       // Contact info animation
@@ -89,7 +89,7 @@ export function ContactSection() {
             start: "top 80%",
             toggleActions: "play none none reverse",
           },
-        }
+        },
       );
 
       // Stagger animation for contact details
@@ -107,7 +107,7 @@ export function ContactSection() {
             start: "top 85%",
             toggleActions: "play none none reverse",
           },
-        }
+        },
       );
 
       // Hover animation for buttons
@@ -145,7 +145,7 @@ export function ContactSection() {
             start: "top 85%",
             toggleActions: "play none none reverse",
           },
-        }
+        },
       );
     }
   }, []);
@@ -289,9 +289,7 @@ export function ContactSection() {
                     <h4 className="text-lg font-light text-neutral-900 mb-2">
                       Phone
                     </h4>
-                    <p className="text-neutral-600 font-light">
-                      +1 (555) 123-4567
-                    </p>
+                    <p className="text-neutral-600 font-light">+409-500-4999</p>
                     <p className="text-sm text-neutral-500 font-light">
                       Available 24/7
                     </p>
@@ -307,7 +305,7 @@ export function ContactSection() {
                       Email
                     </h4>
                     <p className="text-neutral-600 font-light">
-                      concierge@elite.com
+                      laeeq8005@gmail.com
                     </p>
                     <p className="text-sm text-neutral-500 font-light">
                       Response within 1 hour
@@ -324,10 +322,8 @@ export function ContactSection() {
                       Address
                     </h4>
                     <p className="text-neutral-600 font-light">
-                      123 Luxury Avenue
-                    </p>
-                    <p className="text-neutral-600 font-light">
-                      New York, NY 10001
+                      1055 FM646 Dickinson Texas Apartment 1124 Dickinson, TX
+                      77539
                     </p>
                   </div>
                 </div>
