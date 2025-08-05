@@ -7,26 +7,30 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 
-const quickLinks = [
+interface Links {
+  name: string;
+  href: string;
+}
+
+const quickLinks: Links[] = [
   { name: "Home", href: "#home" },
-  { name: "Fleet", href: "#fleet" },
+  { name: "Fleet", href: "/rent-a-cadillac-houston" },
   { name: "Services", href: "#services" },
   { name: "About", href: "#about" },
   { name: "Contact", href: "#contact" },
 ];
 
-const services = [
-  { name: "Executive Chauffeur", href: "#" },
-  { name: "Airport Transfers", href: "#" },
-  { name: "Corporate Events", href: "#" },
-  { name: "Special Occasions", href: "#" },
+const services: Links[] = [
+  { name: "Executive Chauffeur", href: "/car-chauffeur-services" },
+  { name: "Airport Transfers", href: "/airport-transportation-services" },
+  { name: "Corporate Events", href: "/event-transportation-services" },
+  {
+    name: "Limousine Transportation",
+    href: "/limousine-transportation-services",
+  },
 ];
 
-const legal = [
-  { name: "Privacy Policy", href: "#" },
-  { name: "Terms of Service", href: "#" },
-  { name: "Cookie Policy", href: "#" },
-];
+const legal: string[] = ["Privacy Policy", "Terms of Service", "Cookie Policy"];
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -155,7 +159,7 @@ export function Footer() {
             <div>
               <h4 className="text-lg font-light mb-8">Navigation</h4>
               <ul className="space-y-4">
-                {quickLinks.map((link, index) => (
+                {quickLinks.map((link: Links, index: number) => (
                   <li key={index}>
                     <Link
                       href={link.href}
@@ -173,7 +177,7 @@ export function Footer() {
             <div>
               <h4 className="text-lg font-light mb-8">Services</h4>
               <ul className="space-y-4">
-                {services.map((service, index) => (
+                {services.map((service: Links, index: number) => (
                   <li key={index}>
                     <a
                       href={service.href}
@@ -195,13 +199,12 @@ export function Footer() {
                 reserved.
               </p>
               <div className="flex space-x-8">
-                {legal.map((item, index) => (
+                {legal.map((item: string, index: number) => (
                   <a
                     key={index}
-                    href={item.href}
                     className="text-neutral-500 hover:text-neutral-300 transition-colors duration-300 text-sm font-light"
                   >
-                    {item.name}
+                    {item}
                   </a>
                 ))}
               </div>
