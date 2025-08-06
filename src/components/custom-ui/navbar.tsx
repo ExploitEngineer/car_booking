@@ -88,6 +88,7 @@ export function Navigation({ animate = true }) {
   const [openDesktop, setOpenDesktop] = useState<string | null>(null);
   const [openMobile, setOpenMobile] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
+  const hasAnimationRef = useRef(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -97,7 +98,10 @@ export function Navigation({ animate = true }) {
 
   useGSAP(
     () => {
-      if (!animate) return;
+      if (!animate || hasAnimationRef.current) return;
+
+      hasAnimationRef.current = true;
+
       gsap.fromTo(
         ".nav-item",
         { y: -30, opacity: 0 },
@@ -106,7 +110,7 @@ export function Navigation({ animate = true }) {
           opacity: 1,
           duration: 1.2,
           stagger: 0.1,
-          delay: 3.8,
+          delay: 2.5,
           ease: "power3.out",
         },
       );
@@ -117,7 +121,7 @@ export function Navigation({ animate = true }) {
           scale: 1,
           rotation: 0,
           duration: 1,
-          delay: 3.8,
+          delay: 2.5,
           ease: "back.out(1.7)",
         },
       );
@@ -182,8 +186,8 @@ export function Navigation({ animate = true }) {
                   {/* Desktop Dropdown */}
                   {hasChildren && openDesktop === item.name && (
                     <div className="absolute top-7 w-58 mt-2 bg-white shadow-md rounded-md z-50">
-                      {item.children!.map((c, i) => (
-                        <Link key={i} href={c.navigate}>
+                      {item.children!.map((c) => (
+                        <Link key={c.name} href={c.navigate}>
                           <div className="px-4 py-2 pt-4 text-neutral-700 text-sm hover:bg-gray-100 cursor-pointer">
                             {c.name}
                           </div>
@@ -241,10 +245,10 @@ export function Navigation({ animate = true }) {
                     </DrawerClose>
                   </div>
 
-                  {navItems.map((item, idx) => {
+                  {navItems.map((item) => {
                     const hasChildren = !!item.children;
                     return (
-                      <div key={idx}>
+                      <div key={item.name}>
                         <div
                           className="flex justify-between items-center py-3 text-lg font-light text-neutral-700 border-b border-neutral-100 cursor-pointer"
                           onClick={() =>

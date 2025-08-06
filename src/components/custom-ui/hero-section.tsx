@@ -50,32 +50,32 @@ export function HeroSection() {
 
   useGSAP(
     () => {
-      const tl = gsap.timeline({ delay: 4 });
+      const tl = gsap.timeline();
       tl.fromTo(
         ".hero-title",
         { y: 100, opacity: 0, scale: 0.9 },
-        { y: 0, opacity: 1, scale: 1, duration: 1.8, ease: "power3.out" }
+        { y: 0, opacity: 1, scale: 1, duration: 1.8, ease: "power3.out" },
       )
         .fromTo(
           ".hero-subtitle",
           { y: 60, opacity: 0 },
           { y: 0, opacity: 1, duration: 1.4, ease: "power3.out" },
-          "-=1.2"
+          "-=1.2",
         )
         .fromTo(
           ".hero-button",
           { y: 40, opacity: 0, scale: 0.8 },
           { y: 0, opacity: 1, scale: 1, duration: 1.2, ease: "back.out(1.7)" },
-          "-=0.8"
+          "-=0.8",
         )
         .fromTo(
           ".booking-form",
           { x: 80, opacity: 0, rotationY: 15 },
           { x: 0, opacity: 1, rotationY: 0, duration: 1.4, ease: "power3.out" },
-          "-=1"
+          "-=1",
         );
     },
-    { scope: heroRef }
+    { scope: heroRef },
   );
 
   return (
@@ -315,8 +315,12 @@ export function HeroSection() {
                     {/* Time */}
                     <Tabs defaultValue="on-way">
                       <TabsList className="flex space-x-4 mb-6">
-                        <TabsTrigger className="cursor-pointer" value="on-way">One Way</TabsTrigger>
-                        <TabsTrigger className="cursor-pointer" value="return">Return</TabsTrigger>
+                        <TabsTrigger className="cursor-pointer" value="on-way">
+                          One Way
+                        </TabsTrigger>
+                        <TabsTrigger className="cursor-pointer" value="return">
+                          Return
+                        </TabsTrigger>
                       </TabsList>
 
                       <TabsContent value="on-way">
